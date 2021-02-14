@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="cwx-b2-JiW">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13527"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Main View Controller-->
+        <scene sceneID="o3r-fE-ZbV">
+            <objects>
+                <viewController id="kph-eE-Wta" customClass="ViewController" customModule="ReactNativeMultipleRCTRootView" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="j2G-ub-F32">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7Eb-M8-8L6">
+                                <rect key="frame" x="148" y="107" width="79" height="30"/>
+                                <state key="normal" title="Red Screen"/>
+                                <connections>
+                                    <action selector="showRedScreen:" destination="kph-eE-Wta" eventType="touchUpInside" id="d3e-Lp-OyH"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="7ug-fP-d5M">
+                                <rect key="frame" x="147" y="161" width="82" height="30"/>
+                                <state key="normal" title="Blue Screen"/>
+                                <connections>
+                                    <action selector="showBlueScreen:" destination="kph-eE-Wta" eventType="touchUpInside" id="BST-aA-NtP"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="7Eb-M8-8L6" firstAttribute="top" secondItem="kxe-Xr-AIt" secondAttribute="top" constant="43" id="UVD-mK-eUf"/>
+                            <constraint firstItem="7ug-fP-d5M" firstAttribute="centerX" secondItem="kxe-Xr-AIt" secondAttribute="centerX" id="gRf-al-lp1"/>
+                            <constraint firstItem="7ug-fP-d5M" firstAttribute="top" secondItem="7Eb-M8-8L6" secondAttribute="bottom" constant="24" id="h2h-qf-HX8"/>
+                            <constraint firstItem="7Eb-M8-8L6" firstAttribute="centerX" secondItem="kxe-Xr-AIt" secondAttribute="centerX" id="iZW-Nl-DI5"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="kxe-Xr-AIt"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="A9J-qa-17K"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FN4-ja-QfX" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="642" y="-415"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="2Xc-A8-0dw">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="cwx-b2-JiW" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="KYb-fk-tZJ">
+                        <rect key="frame" x="0.0" y="20" width="375" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="kph-eE-Wta" kind="relationship" relationship="rootViewController" id="uZw-fL-HuV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Q2s-OL-Pgz" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-163.19999999999999" y="-414.69265367316348"/>
+        </scene>
+    </scenes>
+</document>
