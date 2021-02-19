@@ -1,30 +1,16 @@
 import React, {useEffect, useState} from 'react';
 import JitsiMeetJS from "sariska-media-transport";
 import {conferenceConfig} from "../../constants";
-import RemoteStream from "../RemoteStream";
-import LocalStream from "../LocalStream";
+import {useSelector, useDispatch} from "react-redux";
+import {addConference} from "../../store/actions/conference";
+import {addTrack, removeTrack} from "../../store/actions/track";
+import {SariskaNativeConnect} from "../../utils/SariskaNativeConnect";
 
-
-const Conference = (props) => {
-    const {connection} = props;
-    const [room, setRoom] = useState(null);
-    const [localTracks, setLocalTracks] = useState([]);
-    const [remoteTracks, setRemoteTracks] = useState([]);
-
-    useEffect(() => {
-        if (room && localTracks.length) {
-            return localTracks.forEach(track => room.addTrack(track).then(() => console.log("added")).catch(err => console.log("track is already added")));
-        }
-        JitsiMeetJS.createLocalTracks({devices: ["video"], resolution: "180"}).then(tracks => {
-            setLocalTracks(tracks);
-            if (room?.isJoined()) {
-                tracks.forEach(track => room.addTrack(track).catch(err => console.log("track is already added")));
-            }
-        }).catch((e) => console.log(e, "failed to fetch tracks"));
-    }, [room]);
+const Conference = (options={}) => {
+    const dispatch = useDispatch();
+    const connection = useSelector(state=>state.connection);
 
     useEffect(() => {
-        const {connection} = props;
         if (!connection) {
             return;
         }
@@ -33,18 +19,21 @@ const Conference = (props) => {
         room.join();
 
         const onConferenceJoined = () => {
-            setRoom(room);
+            dispatch(addConference(room));
+            SariskaNativeConnect.newConferenceMessage(JitsiMeetJS.events.conference.CONFERENCE_JOINED);
         }
 
         const onTrackRemoved = (track) => {
-            setRemoteTracks(remoteTracks.filter(item => item.track.id !== track.track.id));
+            dispatch(removeTrack(track));
+            SariskaNativeConnect.newConferenceMessage(JitsiMeetJS.events.conference.TRACK_REMOVED);
         }
 
         const onRemoteTrack = (track) => {
             if (!track || track.isLocal()) {
                 return;
             }
-            setRemoteTracks(remoteTracks => [...remoteTracks, track]);
+            dispatch(addTrack(track));
+            SariskaNativeConnect.newConferenceMessage(JitsiMeetJS.events.conference.TRACK_ADDED);
         }
 
         const leave = (event) => {
@@ -63,12 +52,7 @@ const Conference = (props) => {
         }
     }, [connection]);
 
-    return (
-        <>
-            <RemoteStream remoteTracks={remoteTracks}/>
-            <LocalStream localTracks={localTracks}/>
-        </>
-    )
+    return null;
 }
 
 export default Conference;

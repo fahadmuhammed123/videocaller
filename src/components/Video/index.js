@@ -1,6 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
 import { RTCView} from 'react-native-webrtc';
+import {useSelector} from "react-redux";
 
 
 const styles = StyleSheet.create({
@@ -15,7 +16,10 @@ const styles = StyleSheet.create({
 })
 
 const Video = (props) => {
-    return <RTCView streamURL={props.track.stream?.toURL()} style={styles.video} />;
+    const {id} = props;
+    const tracks = useSelector(state=>state.track);
+    const track  =  tracks.find(track=>track.id===id);
+    return <RTCView streamURL={track.stream?.toURL()} style={styles.video} />;
 };
 
 export default Video;

@@ -3,10 +3,9 @@ import JitsiMeetJS from "sariska-media-transport";
 import {connectionConfig, initSDKConfig} from "../../constants";
 import {getToken} from "../../utils";
 import NetInfo from "@react-native-community/netinfo";
-import Conference from "../Conference";
+import {SariskaNativeConnect} from "../../utils/SariskaNativeConnect";
 
-const Connection = (props) => {
-
+const Connection = (options={}) => {
     const [connection, setConnection] = useState(null);
 
     useEffect(() => {
@@ -15,7 +14,11 @@ const Connection = (props) => {
         let conn;
 
         const fetchData = async () => {
-            const token = await getToken();
+            if (!options.apiKey) {
+                return;
+            }
+
+            const token = await getToken(options);
             if (!token) {
                 return;
             }
@@ -29,6 +32,7 @@ const Connection = (props) => {
 
         const onConnectionSuccess = () => {
             setConnection(conn);
+            SariskaNativeConnect.newConnectionMessage(JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED);
         }
 
         const onConnectionDisconnected = (error) => {
@@ -44,12 +48,12 @@ const Connection = (props) => {
             connection.removeEventListener(
                 JitsiMeetJS.events.connection.CONNECTION_DISCONNECTED,
                 onConnectionDisconnected)
+            SariskaNativeConnect.newConnectionMessage(JitsiMeetJS.events.connection.CONNECTION_DISCONNECTED);
         }
 
         const onConnectionFailed = async (error) => {
             if (error === JitsiMeetJS.errors.connection.PASSWORD_REQUIRED) {  // token expired,  fetch new token and set again
-                const token = await getToken();
-                conn.setToken(token);
+                SariskaNativeConnect.newConnectionMessage(JitsiMeetJS.errors.connection.PASSWORD_REQUIRED);
             }
         }
 
@@ -66,7 +70,7 @@ const Connection = (props) => {
 
     }, []);
 
-    return (<Conference connection={connection}/>);
+    return null;
 }
 
 export default Connection;
