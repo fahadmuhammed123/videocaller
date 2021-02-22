@@ -24,6 +24,7 @@
 		80A5B6B525DE9BE500FC8EEA /* EventEmitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A5B6B425DE9BE500FC8EEA /* EventEmitter.swift */; };
 		80A5B6DE25DEA79600FC8EEA /* Delegated.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A5B6DD25DEA79600FC8EEA /* Delegated.swift */; };
 		80A5B6E125DEC04300FC8EEA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80A5B6E025DEC04300FC8EEA /* Message.swift */; };
+		80D8877825E399AB008E6178 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80D8877725E399AB008E6178 /* User.swift */; };
 		B044FE31FBE56D41E5858953 /* libPods-sariska-media-swift.a in Frameworks */ = {isa = PBXBuildFile; fileRef = C298B1CD73F772167F1A1BCA /* libPods-sariska-media-swift.a */; };
 /* End PBXBuildFile section */
 
@@ -49,6 +50,7 @@
 		80A5B6B425DE9BE500FC8EEA /* EventEmitter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEmitter.swift; sourceTree = "<group>"; };
 		80A5B6DD25DEA79600FC8EEA /* Delegated.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Delegated.swift; sourceTree = SOURCE_ROOT; };
 		80A5B6E025DEC04300FC8EEA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		80D8877725E399AB008E6178 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C298B1CD73F772167F1A1BCA /* libPods-sariska-media-swift.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-sariska-media-swift.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3D57FC8CC63CB6778C8DB63 /* Pods-sariska-media-swift.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-sariska-media-swift.release.xcconfig"; path = "Target Support Files/Pods-sariska-media-swift/Pods-sariska-media-swift.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -120,6 +122,7 @@
 				8019941725DC089600259329 /* Conference.swift */,
 				8019941A25DC08A400259329 /* Track.swift */,
 				8019941D25DC08D800259329 /* SariskaMediaTransport.swift */,
+				80D8877725E399AB008E6178 /* User.swift */,
 			);
 			path = "sariska-media-swift";
 			sourceTree = "<group>";
@@ -275,6 +278,7 @@
 				8019940725DBA2AB00259329 /* RNViewManager.swift in Sources */,
 				8019940A25DBA2FE00259329 /* SariskaConnectNative.swift in Sources */,
 				8019940E25DBA31F00259329 /* SariskaConnectNative.m in Sources */,
+				80D8877825E399AB008E6178 /* User.swift in Sources */,
 				8019941525DC088600259329 /* Connection.swift in Sources */,
 				801993F225DBA0F500259329 /* ViewController.swift in Sources */,
 				801993EE25DBA0F500259329 /* AppDelegate.swift in Sources */,

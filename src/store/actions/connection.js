@@ -6,3 +6,10 @@ export const addConnection = (connection) => {
         payload: connection
     }
 }
+
+export const connectionAction = (type, method) => {
+    return {
+        type,
+        method
+    }
+}

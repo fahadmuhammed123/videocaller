@@ -6,3 +6,10 @@ export const addConference = (conference) => {
         payload: conference
     }
 }
+
+export const conferenceAction = (type, method) => {
+    return {
+        type,
+        method
+    }
+}

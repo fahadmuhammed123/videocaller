@@ -28,3 +28,11 @@ export const updateTrack = (track) => {
         payload: track
     }
 }
+
+export const trackAction = (type, method, trackId) => {
+    return {
+        type,
+        method,
+        trackId
+    }
+}

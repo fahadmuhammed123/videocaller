@@ -1,4 +1,4 @@
-import {ADD_TRACKS, ADD_TRACK, UPDATE_TRACK, REMOVE_TRACK } from "../actions/types";
+import {ADD_TRACKS, ADD_TRACK, UPDATE_TRACK, REMOVE_TRACK, TRACK_ACTION } from "../actions/types";
 
 const initialState = [];
 
@@ -16,6 +16,11 @@ export const track =  (state = [], action) => {
             return state.slice();
         case REMOVE_TRACK:
             state = state.filter(item => item.id !== action.payload.id);
+            break;
+        case "TRACK":
+            const {method, trackId} = action;
+            const track = state.track.find(item=>item.track.id===trackId);
+            track[method]();
             break;
         default:
             return state;
