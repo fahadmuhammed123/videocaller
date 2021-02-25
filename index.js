@@ -1,8 +1,8 @@
 /**
  * @format
  */
-import 'sariska-media-transport/modules/mobile/polyfills';
-import {AppRegistry, StyleSheet, View} from 'react-native';
+import 'sariska-media-transport/build/modules/mobile/polyfills';
+import {AppRegistry} from 'react-native';
 import React from "react"
 import App from './App';
 import {name as appName} from './app.json';

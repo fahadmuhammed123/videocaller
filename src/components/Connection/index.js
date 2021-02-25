@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import JitsiMeetJS from "sariska-media-transport";
+import SariskaMediaTransport from "sariska-media-transport";
 import {connectionConfig, initSDKConfig} from "../../constants";
 import {getToken} from "../../utils";
 import NetInfo from "@react-native-community/netinfo";
@@ -10,8 +10,8 @@ const Connection = (props) => {
     const [connection, setConnection] = useState(null);
 
     useEffect(() => {
-        JitsiMeetJS.init(initSDKConfig);
-        JitsiMeetJS.setLogLevel(JitsiMeetJS.logLevels.ERROR); //TRACE ,DEBUG, INFO, LOG, WARN, ERROR
+        SariskaMediaTransport.init(initSDKConfig);
+        SariskaMediaTransport.setLogLevel(SariskaMediaTransport.logLevels.ERROR); //TRACE ,DEBUG, INFO, LOG, WARN, ERROR
         let conn;
 
         const fetchData = async () => {
@@ -19,11 +19,11 @@ const Connection = (props) => {
             if (!token) {
                 return;
             }
-            conn = new JitsiMeetJS.JitsiConnection(token, connectionConfig);
-            conn.addEventListener(JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED, onConnectionSuccess);
-            conn.addEventListener(JitsiMeetJS.events.connection.CONNECTION_FAILED, onConnectionFailed);
-            conn.addEventListener(JitsiMeetJS.events.connection.CONNECTION_DISCONNECTED, onConnectionDisconnected);
-            conn.addEventListener(JitsiMeetJS.events.connection.PASSWORD_REQUIRED, onConnectionDisconnected);
+            conn = new SariskaMediaTransport.JitsiConnection(token, connectionConfig);
+            conn.addEventListener(SariskaMediaTransport.events.connection.CONNECTION_ESTABLISHED, onConnectionSuccess);
+            conn.addEventListener(SariskaMediaTransport.events.connection.CONNECTION_FAILED, onConnectionFailed);
+            conn.addEventListener(SariskaMediaTransport.events.connection.CONNECTION_DISCONNECTED, onConnectionDisconnected);
+            conn.addEventListener(SariskaMediaTransport.events.connection.PASSWORD_REQUIRED, onConnectionDisconnected);
             conn.connect();
         }
 
@@ -36,18 +36,18 @@ const Connection = (props) => {
                 return;
             }
             connection.removeEventListener(
-                JitsiMeetJS.events.connection.CONNECTION_ESTABLISHED,
+                SariskaMediaTransport.events.connection.CONNECTION_ESTABLISHED,
                 onConnectionSuccess);
             connection.removeEventListener(
-                JitsiMeetJS.events.connection.CONNECTION_FAILED,
+                SariskaMediaTransport.events.connection.CONNECTION_FAILED,
                 onConnectionFailed);
             connection.removeEventListener(
-                JitsiMeetJS.events.connection.CONNECTION_DISCONNECTED,
+                SariskaMediaTransport.events.connection.CONNECTION_DISCONNECTED,
                 onConnectionDisconnected)
         }
 
         const onConnectionFailed = async (error) => {
-            if (error === JitsiMeetJS.errors.connection.PASSWORD_REQUIRED) {  // token expired,  fetch new token and set again
+            if (error === SariskaMediaTransport.errors.connection.PASSWORD_REQUIRED) {  // token expired,  fetch new token and set again
                 const token = await getToken();
                 conn.setToken(token);
             }
@@ -55,7 +55,7 @@ const Connection = (props) => {
 
         const unsubscribe = NetInfo.addEventListener(state => {
             console.log("Is connected?", state.isConnected);
-            JitsiMeetJS.setNetworkInfo({isOnline: state.isConnected});
+            SariskaMediaTransport.setNetworkInfo({isOnline: state.isConnected});
         });
 
         fetchData();

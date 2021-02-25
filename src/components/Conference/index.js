@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import JitsiMeetJS from "sariska-media-transport";
+import SariskaMediaTransport from "sariska-media-transport";
 import {conferenceConfig} from "../../constants";
 import RemoteStream from "../RemoteStream";
 import LocalStream from "../LocalStream";
@@ -16,8 +16,8 @@ const Conference = (props) => {
             if (room?.isJoined() && localTracks.length) {
                 return localTracks.forEach(track => room.addTrack(track).then(() => console.log("added")).catch(err => console.log("track is already added")));
             }
-            const videoTrack = await JitsiMeetJS.createLocalTracks({devices: ["video"], resolution: "180"});
-            const audioTrack = await JitsiMeetJS.createLocalTracks({devices: ["audio"]});
+            const videoTrack = await SariskaMediaTransport.createLocalTracks({devices: ["video"], resolution: "180"});
+            const audioTrack = await SariskaMediaTransport.createLocalTracks({devices: ["audio"]});
             setLocalTracks([...videoTrack, ...audioTrack]);
             if (room?.isJoined()) {
                 localTracks.forEach(track => room.addTrack(track).catch(err => console.log("track is already added")));
@@ -57,9 +57,9 @@ const Conference = (props) => {
             }
         }
 
-        room.on(JitsiMeetJS.events.conference.CONFERENCE_JOINED, onConferenceJoined);
-        room.on(JitsiMeetJS.events.conference.TRACK_ADDED, onRemoteTrack);
-        room.on(JitsiMeetJS.events.conference.TRACK_REMOVED, onTrackRemoved);
+        room.on(SariskaMediaTransport.events.conference.CONFERENCE_JOINED, onConferenceJoined);
+        room.on(SariskaMediaTransport.events.conference.TRACK_ADDED, onRemoteTrack);
+        room.on(SariskaMediaTransport.events.conference.TRACK_REMOVED, onTrackRemoved);
 
         return () => {
             leave();
