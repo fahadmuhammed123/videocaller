@@ -1,6 +1,5 @@
 import React from 'react';
 import Video from "../Video";
-import Audio from "../Audio";
 import {FlatList} from 'react-native';
 
 const LocalStream = (props) => {

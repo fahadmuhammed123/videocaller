@@ -1,6 +1,6 @@
 import React from 'react';
 import { StyleSheet, View, Text } from 'react-native';
-import { RTCView} from 'react-native-webrtc';
+import { RTCView } from 'react-native-webrtc';
 
 
 const styles = StyleSheet.create({
@@ -13,7 +13,6 @@ const styles = StyleSheet.create({
         backgroundColor: 'red'
     }
 })
-
 const Video = (props) => {
     return <RTCView streamURL={props.track.stream?.toURL()} style={styles.video} />;
 };

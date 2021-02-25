@@ -12,19 +12,22 @@ const Conference = (props) => {
     const [remoteTracks, setRemoteTracks] = useState([]);
 
     useEffect(() => {
-        if (room && localTracks.length) {
-            return localTracks.forEach(track => room.addTrack(track).then(() => console.log("added")).catch(err => console.log("track is already added")));
-        }
-        JitsiMeetJS.createLocalTracks({devices: ["video"], resolution: "180"}).then(tracks => {
-            setLocalTracks(tracks);
-            if (room?.isJoined()) {
-                tracks.forEach(track => room.addTrack(track).catch(err => console.log("track is already added")));
+      const setupLocalStream = async ()=>{
+            if (room?.isJoined() && localTracks.length) {
+                return localTracks.forEach(track => room.addTrack(track).then(() => console.log("added")).catch(err => console.log("track is already added")));
             }
-        }).catch((e) => console.log(e, "failed to fetch tracks"));
+            const videoTrack = await JitsiMeetJS.createLocalTracks({devices: ["video"], resolution: "180"});
+            const audioTrack = await JitsiMeetJS.createLocalTracks({devices: ["audio"]});
+            setLocalTracks([...videoTrack, ...audioTrack]);
+            if (room?.isJoined()) {
+                localTracks.forEach(track => room.addTrack(track).catch(err => console.log("track is already added")));
+            }
+       }
+       setupLocalStream();
     }, [room]);
 
     useEffect(() => {
-        const {connection} = props;
+        const {connection} = props; 
         if (!connection) {
             return;
         }
@@ -37,14 +40,14 @@ const Conference = (props) => {
         }
 
         const onTrackRemoved = (track) => {
-            setRemoteTracks(remoteTracks.filter(item => item.track.id !== track.track.id));
+            setRemoteTracks(tracks=>tracks.filter(item=>item.track.id !== track.track.id));
         }
 
         const onRemoteTrack = (track) => {
             if (!track || track.isLocal()) {
                 return;
             }
-            setRemoteTracks(remoteTracks => [...remoteTracks, track]);
+            setRemoteTracks(tracks => [...tracks, track]);
         }
 
         const leave = (event) => {
