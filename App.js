@@ -24,15 +24,15 @@ import {trackAction} from "./src/store/actions/track";
 const App = () => {
     const dispatch = useDispatch();
     useEffect(() => {
-        new NativeEventEmitter(NativeModules.BroadcastNativeEvent).addListener("NEW_MESSAGE", (data) => {
-            const {type, method} = data;
+        new NativeEventEmitter(NativeModules.BroadcastNativeEvent).addListener("new_message", (data) => {
+            const {type, action} = data;
             switch (type) {
                 case "CONNECTION":
-                    return dispatch(connectionAction(type, method));
+                    return dispatch(connectionAction(type, action));
                 case "CONFERENCE":
-                    return dispatch(conferenceAction(type, method));
+                    return dispatch(conferenceAction(type, action));
                 case "TRACK":
-                    return dispatch(trackAction(type, method, data.trackId));
+                    return dispatch(trackAction(type, action, data.trackId));
             }
         });
     }, []);
