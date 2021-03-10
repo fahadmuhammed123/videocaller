@@ -20,7 +20,13 @@ import {
 import {conferenceAction} from "./src/store/actions/conference";
 import {connectionAction} from "./src/store/actions/connection";
 import {trackAction} from "./src/store/actions/track";
+import MessageQueue from 'react-native/Libraries/BatchedBridge/MessageQueue.js';
 
+const spyFunction = (msg) => {
+  console.log(msg);
+};
+
+MessageQueue.spy(spyFunction);
 const App = () => {
     const dispatch = useDispatch();
     useEffect(() => {

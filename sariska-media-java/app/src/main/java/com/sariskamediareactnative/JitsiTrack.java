@@ -14,32 +14,28 @@ public class JitsiTrack extends EventEmitter {
 
     private String deviceId;
 
-    public String Id;
+    private String id;
 
-    private Boolean isRemote;
+    private Boolean remote;
 
-    public void Track() {
+    public void JitsiTrack() {
 
     }
 
     public String getType() {
-
-    }
-
-    public void isRemote() {
-        return this.isRemote;
-    }
-
-    public void mute() {
-        BroadcastNativeEvent.sendEvent("mute");
+        return this.remote;
     }
 
     public String getId() {
-        return this.Id;
+        return this.id;
+    }
+
+    public void mute() {
+        BroadcastNativeEvent.sendEvent("mute", this.id);
     }
 
     public void unmute() {
-        BroadcastNativeEvent.sendEvent("unmute");
+        BroadcastNativeEvent.sendEvent("unmute", this.id);
     }
 
     public void getDeviceId() {
@@ -59,7 +55,7 @@ public class JitsiTrack extends EventEmitter {
     }
 
     public void dispose() {
-
+        BroadcastNativeEvent.sendEvent("dispose", this.id);
     }
 
     public void detach() {

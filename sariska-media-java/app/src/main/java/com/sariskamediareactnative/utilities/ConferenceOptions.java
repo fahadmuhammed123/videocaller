@@ -5,80 +5,13 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 import java.net.URL;
+import com.facebook.react.bridge.Arguments;
 
 
-/**
- * This class represents the options when joining a Jitsi Meet conference. The user can create an
- * instance by using {@link JitsiMeetConferenceOptions.Builder} and setting the desired options
- * there.
- *
- * The resulting {@link JitsiMeetConferenceOptions} object is immutable and represents how the
- * conference will be joined.
- */
 public class JitsiMeetConferenceOptions implements Parcelable {
-    /**
-     * Server where the conference should take place.
-     */
-    private URL serverURL;
-    /**
-     * Room name.
-     */
-    private String room;
-    /**
-     * Conference subject.
-     */
-    private String subject;
-    /**
-     * JWT token used for authentication.
-     */
-    private String token;
-
-    /**
-     * Color scheme override, see: https://github.com/jitsi/jitsi-meet/blob/dbedee5e22e5dcf9c92db96ef5bb3c9982fc526d/react/features/base/color-scheme/defaultScheme.js
-     */
-    private Bundle colorScheme;
-
-    /**
-     * Feature flags. See: https://github.com/jitsi/jitsi-meet/blob/master/react/features/base/flags/constants.js
-     */
-    private Bundle featureFlags;
-
-    /**
-     * Set to {@code true} to join the conference with audio / video muted or to start in audio
-     * only mode respectively.
-     */
     private Boolean audioMuted;
     private Boolean audioOnly;
     private Boolean videoMuted;
-
-    /**
-     * USer information, to be used when no token is specified.
-     */
-    private JitsiMeetUserInfo userInfo;
-
-    public URL getServerURL() {
-        return serverURL;
-    }
-
-    public String getRoom() {
-        return room;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public String getToken() {
-        return token;
-    }
-
-    public Bundle getColorScheme() {
-        return colorScheme;
-    }
-
-    public Bundle getFeatureFlags() {
-        return featureFlags;
-    }
 
     public boolean getAudioMuted() {
         return audioMuted;
@@ -92,13 +25,6 @@ public class JitsiMeetConferenceOptions implements Parcelable {
         return videoMuted;
     }
 
-    public JitsiMeetUserInfo getUserInfo() {
-        return userInfo;
-    }
-
-    /**
-     * Class used to build the immutable {@link JitsiMeetConferenceOptions} object.
-     */
     public static class Builder {
         private URL serverURL;
         private String room;
