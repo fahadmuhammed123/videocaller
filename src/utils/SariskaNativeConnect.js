@@ -1,4 +1,3 @@
-// If TestConnectNative is an package from npm, you can think this is index.js file
 import {NativeModules, Platform} from 'react-native';
 
 const sariskaConnectNative = NativeModules.SariskaConnectNative;
@@ -15,6 +14,11 @@ const SariskaConnectNative = {
     newLocalTrackMessage: msg => {
         sariskaConnectNative.newLocalTrackMessage(msg);
     },
+
+    newRemoteTrackMessage: msg => {
+        sariskaConnectNative.newRemoteTrackMessage(msg);
+    },
+
     sendCallback: callback => {
         sariskaConnectNative.sendCallbackToNative(callback);
     }

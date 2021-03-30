@@ -1,12 +1,14 @@
 import { combineReducers } from "redux";
 import { conference } from "./conference";
 import { connection } from "./connection";
-import { track } from "./track";
+import { localTrack } from "./localTrack";
+import { remoteTrack } from "./remoteTrack";
 
 export const appReducer = combineReducers({
     conference,
     connection,
-    track
+    localTrack,
+    remoteTrack
 });
 
 export const rootReducer = (state, action) => {

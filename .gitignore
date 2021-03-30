@@ -1,7 +1,6 @@
 # OSX
 #
 .DS_Store
-
 # Xcode
 #
 build/
@@ -25,6 +24,7 @@ DerivedData
 #
 build/
 .idea
+__tests__
 .gradle
 local.properties
 *.iml

@@ -6,13 +6,10 @@ export const connection = (state = initialState, action) => {
     switch (action.type) {
         case ADD_CONNECTION:
             state = action.payload;
-            break;
-        case "CONNECTION":
-            const {method} = action;
-            state[method]();
-            break;
+            return state;
+        case CONNECTION_ACTION:
+            return state[action.method]();;
         default:
             return state;
     }
 }
-

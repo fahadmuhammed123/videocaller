@@ -208,48 +208,6 @@ public class JitsiMeetConferenceOptions implements Parcelable {
             return this;
         }
 
-        /**
-         * Sets the welcome page enabled / disabled. The welcome page lists recent meetings and
-         * calendar appointments and it's meant to be used by standalone applications. Defaults to
-         * false.
-         * @param enabled - Whether the welcome page should be enabled or not.
-         * @return - The {@link Builder} object itself so the method calls can be chained.
-         */
-        public Builder setWelcomePageEnabled(boolean enabled) {
-            this.featureFlags.putBoolean("welcomepage.enabled", enabled);
-
-            return this;
-        }
-
-        public Builder setFeatureFlag(String flag, boolean value) {
-            this.featureFlags.putBoolean(flag, value);
-
-            return this;
-        }
-
-        public Builder setFeatureFlag(String flag, String value) {
-            this.featureFlags.putString(flag, value);
-
-            return this;
-        }
-
-        public Builder setFeatureFlag(String flag, int value) {
-            this.featureFlags.putInt(flag, value);
-
-            return this;
-        }
-
-        public Builder setUserInfo(JitsiMeetUserInfo userInfo) {
-            this.userInfo = userInfo;
-
-            return this;
-        }
-
-        /**
-         * Builds the immutable {@link JitsiMeetConferenceOptions} object with the configuration
-         * that this {@link Builder} instance specified.
-         * @return - The built {@link JitsiMeetConferenceOptions} object.
-         */
         public JitsiMeetConferenceOptions build() {
             JitsiMeetConferenceOptions options = new JitsiMeetConferenceOptions();
 

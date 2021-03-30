@@ -23,7 +23,7 @@
     "react-native-webrtc": "^1.87.3",
     "react-redux": "^7.2.2",
     "redux": "^4.0.5",
-    "sariska-media-transport": "git+https://github.com/SariskaIO/sariska-media-transport.git"
+    "sariska-media-transport": "git+https://github.com/SariskaIO/sariska-media-transport.git#bk--ts"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",

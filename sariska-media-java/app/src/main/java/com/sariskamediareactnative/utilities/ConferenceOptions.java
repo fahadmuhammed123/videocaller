@@ -8,7 +8,7 @@ import java.net.URL;
 import com.facebook.react.bridge.Arguments;
 
 
-public class JitsiMeetConferenceOptions implements Parcelable {
+public class ConferenceOptions implements Parcelable {
     private Boolean audioMuted;
     private Boolean audioOnly;
     private Boolean videoMuted;

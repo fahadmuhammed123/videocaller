@@ -1,54 +1,47 @@
-import React, {useEffect, useState} from 'react';
-import JitsiMeetJS from "sariska-media-transport";
+import React, {useEffect} from 'react';
+import SariskaMediaTransport from "sariska-media-transport";
+import {useSelector, useDispatch} from 'react-redux'
+import {addRemoteTrack, removeRemoteTrack} from "../../store/actions/track";
+import {setConference} from "../../store/actions/conference";
 import {conferenceConfig} from "../../constants";
-import {useSelector, useDispatch} from "react-redux";
-import {addConference} from "../../store/actions/conference";
-import {addTrack, removeTrack} from "../../store/actions/track";
-import {SariskaNativeConnect} from "../../utils/SariskaNativeConnect";
 
-const Conference = (options={}) => {
+
+const Conference = ({options = conferenceConfig}) => {
+    const connection = useSelector(state => state.connection);
     const dispatch = useDispatch();
-    const connection = useSelector(state=>state.connection);
 
     useEffect(() => {
         if (!connection) {
             return;
         }
-
-        const room = connection.initJitsiConference(conferenceConfig);
+        const room = connection.initJitsiConference(options);
         room.join();
 
         const onConferenceJoined = () => {
-            dispatch(addConference(room));
-            SariskaNativeConnect.newConferenceMessage(JitsiMeetJS.events.conference.CONFERENCE_JOINED);
+            dispatch(setConference(room));
+            SariskaNativeConnect.newConferenceMessage(SariskaMediaTransport.events.conference.CONFERENCE_JOINED);
         }
 
         const onTrackRemoved = (track) => {
-            dispatch(removeTrack(track));
-            SariskaNativeConnect.newConferenceMessage(JitsiMeetJS.events.conference.TRACK_REMOVED);
+            dispatch(removeRemoteTrack(track));
+            SariskaNativeConnect.newRemoteTrackMessage(SariskaMediaTransport.events.conference.TRACK_REMOVED);
         }
 
         const onRemoteTrack = (track) => {
             if (!track || track.isLocal()) {
                 return;
             }
-            dispatch(addTrack(track));
-            SariskaNativeConnect.newConferenceMessage(JitsiMeetJS.events.conference.TRACK_ADDED);
+            dispatch(addRemoteTrack(track));
+            SariskaNativeConnect.newRemoteTrackMessage(SariskaMediaTransport.events.conference.TRACK_ADDED);
         }
 
-        const leave = (event) => {
-            console.log("unloading.....");
-            if (room?.isJoined()) {
-                room.leave().then(() => connection.disconnect(event));
-            }
-        }
-
-        room.on(JitsiMeetJS.events.conference.CONFERENCE_JOINED, onConferenceJoined);
-        room.on(JitsiMeetJS.events.conference.TRACK_ADDED, onRemoteTrack);
-        room.on(JitsiMeetJS.events.conference.TRACK_REMOVED, onTrackRemoved);
-
+        room.on(SariskaMediaTransport.events.conference.CONFERENCE_JOINED, onConferenceJoined);
+        room.on(SariskaMediaTransport.events.conference.TRACK_ADDED, onRemoteTrack);
+        room.on(SariskaMediaTransport.events.conference.TRACK_REMOVED, onTrackRemoved);
         return () => {
-            leave();
+            room.off(SariskaMediaTransport.events.conference.CONFERENCE_JOINED, onConferenceJoined);
+            room.off(SariskaMediaTransport.events.conference.TRACK_ADDED, onRemoteTrack);
+            room.off(SariskaMediaTransport.events.conference.TRACK_REMOVED, onTrackRemoved);
         }
     }, [connection]);
 

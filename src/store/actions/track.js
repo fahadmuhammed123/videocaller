@@ -1,38 +1,43 @@
-import {ADD_TRACK, ADD_TRACKS, REMOVE_TRACK, UPDATE_TRACK} from "./types";
+import * as Constants from "./types";
 
-export const addTrack = (track) => {
+export const addLocalTrack = (track) => {
     return {
-        type: ADD_TRACK,
+        type: Constants.ADD_LOCAL_TRACK,
         payload: track
     }
 }
 
-export const removeTrack = (track) => {
+export const removeLocalTrack = (track) => {
     return {
-        type: REMOVE_TRACK,
+        type: Constants.REMOVE_LOCAL_TRACK,
         payload: track
     }
 }
 
-
-export const addTracks = (tracks) => {
+export const updateLocalTrack = (track) => {
     return {
-        type: ADD_TRACKS,
-        payload: tracks
-    }
-}
-
-export const updateTrack = (track) => {
-    return {
-        type: UPDATE_TRACK,
+        type: Constants.UPDATE_LOCAL_TRACK,
         payload: track
     }
 }
 
-export const trackAction = (type, method, trackId) => {
+export const addRemoteTrack = (track) => {
     return {
-        type,
-        method,
-        trackId
+        type: Constants.ADD_REMOTE_TRACK,
+        payload: track
+    }
+}
+
+export const removeRemoteTrack = (track) => {
+    return {
+        type: Constants.REMOVE_REMOTE_TRACK,
+        payload: track
+    }
+}
+
+export const updateRemoteTrack = (track) => {
+    return {
+        type: Constants.UPDATE_REMOTE_TRACK,
+        payload: track
     }
 }
