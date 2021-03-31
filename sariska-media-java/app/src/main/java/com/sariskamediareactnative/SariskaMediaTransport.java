@@ -12,13 +12,10 @@ public class SariskaMediaTransport extends android.content.BroadcastReceiver {
     private final List<Binding> bindings = new ArrayList<>();
 
     public static void init(JSONObject options) {
-        return new ReactFragment.Builder()
-            .setComponentName("SariskaMediaTransport")
-            .setLaunchOptions(options)
-            .build();
+
     }
 
-    public static void createLocalStream(JSONObject jsonObject,  final Callback callback) {
+    public static void createLocalTracks(JSONObject jsonObject,  final Callback callback) {
         synchronized (bindings) {
             this.bindings.add(new Binding("LOCAL_TRACK", callback));
         }

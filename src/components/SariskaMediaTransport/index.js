@@ -1,25 +1,31 @@
-import React from 'react';
+import React from "react";
 import SariskaMediaTransport from "sariska-media-transport";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {SariskaNativeConnect} from "../../utils/SariskaNativeConnect";
 import {initSDKConfig} from "../../constants";
 
-const SariskaMediaTransport = (options=initSDKConfig) => {
+const SariskaMediaTransport = (props) => {
+    const action = useSelector(state=>state.action);
     const dispatch = useDispatch();
-    SariskaMediaTransport.init(initSDKConfig);
-    SariskaMediaTransport.setLogLevel(SariskaMediaTransport.logLevels.ERROR); //TRACE ,DEBUG, INFO, LOG, WARN, ERROR
 
-    SariskaMediaTransport.createLocalTracks({devices: ["video", "audio"], resolution: "180"}).then(tracks => {
-        dispatch(addTracks(tracks));
-        tracks.forEach(track=>SariskaNativeConnect.newLocalTrackMessage());
-        setLocalTracks([...videoTrack, ...audioTrack]);
-        const videoTrack = await SariskaMediaTransport.createLocalTracks({devices: ["video"], resolution: "180"});
-        const audioTrack = await SariskaMediaTransport.createLocalTracks({devices: ["audio"]});
-        if (room?.isJoined()) {
-            localTracks.forEach(track => room.addTrack(track).catch(err => console.log("track is already added")));
+    useEffect(()=> {
+        const options;
+        if (action === "createLocalTracks" && options.video === true && options.audio === true) {
+            const videoTrack = await SariskaMediaTransport.createLocalTracks({devices: ["video"], resolution: options.resolution});
+            const audioTrack = await SariskaMediaTransport.createLocalTracks({devices: ["audio"]});
+            SariskaNativeConnect.newSariskaMediaTransportMessage(SariskaMediaTransport.events.connection.CONNECTION_ESTABLISHED);
+        } else if (action === "createLocalTracks" && options.video === true ) {
+
+        } else if (action === "createLocalTracks" && options.video === true ) {
+
+        } else if (action === "createLocalTracks" && options.desktop === true ) {
+
         }
-    }).catch((e) => console.log(e, "failed to fetch tracks"));
 
+        if (action === "init") {
+            SariskaMediaTransport.init(initSDKConfig);
+        }
+    }, [props.options.action]);
     return null;
 }
 

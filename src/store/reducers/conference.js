@@ -7,7 +7,8 @@ export const conference = (state = initialState, action) => {
             state = action.payload;
             return state;
         case CONFERENCE_ACTION:
-            return state[action.method]();
+            const {param1, param2, method} = action;
+            return state[method](param1, param2);
         default:
             return state;
     }

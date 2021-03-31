@@ -12,3 +12,7 @@ export const ADD_CONFERENCE = 'ADD_CONFERENCE';
 export const ADD_CONNECTION = 'ADD_CONNECTION'
 export const CONNECTION_ACTION = 'CONNECTION_ACTION';
 export const CONFERENCE_ACTION = 'CONFERENCE_ACTION';
+
+export const ADD_TRACK = "addTrack";
+export const REMOVE_TRACK = "removeTrack";
+export const REPLACE_TRACK  = "replaceTrack";

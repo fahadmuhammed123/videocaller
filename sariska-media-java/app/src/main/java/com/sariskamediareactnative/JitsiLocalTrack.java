@@ -3,10 +3,10 @@ package org.sariska.sdk;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-
+import org.json.JSONObject;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
-public class JitsiTrack extends EventEmitter {
+public class JitsiLocalTrack extends EventEmitter {
 
     private String type;
 
@@ -46,20 +46,15 @@ public class JitsiTrack extends EventEmitter {
         return this.participantId;
     }
 
-    public void attach(FrameLayout container) {
+    public void render(JSONObject options) {
         Fragment reactNativeFragment = new ReactFragment.Builder()
-                .setComponentName("JitsiTrack")
-                .setLaunchOptions(getLaunchOptions("test message"))
-                .build();
+            .setComponentName("Video")
+            .setLaunchOptions(options)
+            .build();
         return reactNativeFragment;
     }
 
     public void dispose() {
         BroadcastNativeEvent.sendEvent("dispose", this.id);
     }
-
-    public void detach() {
-
-    }
-
 }

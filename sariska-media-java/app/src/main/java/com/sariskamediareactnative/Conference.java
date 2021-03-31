@@ -26,7 +26,7 @@ public class Conference extends EventEmitter {
     }
 
     public void  grantOwner(String id) {
-        BroadcastNativeEvent.sendEvent("grantOwner");
+        BroadcastNativeEvent.sendEvent("grantOwner", id);
     }
 
     public void myUserId() {
@@ -54,14 +54,14 @@ public class Conference extends EventEmitter {
     }
 
     public void setDisplayName(String name) {
-        BroadcastNativeEvent.sendEvent(name);
+        BroadcastNativeEvent.sendEvent("setDisplayName", name);
     }
 
     public void selectParticipant(String id) {
-        BroadcastNativeEvent.sendEvent(id);
+        BroadcastNativeEvent.sendEvent("selectParticipant", id);
     }
 
-    public void addTrack(JitsiTrack track) {
+    public void addTrack(JitsiLocalTrack track) {
         BroadcastNativeEvent.sendEvent("addTrack");
     }
 
@@ -69,11 +69,11 @@ public class Conference extends EventEmitter {
 
     }
 
-    public void removeTrack(JitsiTrack track) {
-        BroadcastNativeEvent.sendEvent("replaceTrack");
+    public void removeTrack(JitsiLocalTrack track) {
+        BroadcastNativeEvent.sendEvent("removeTrack");
     }
 
-    public void replaceTrack(JitsiTrack oldTrack, JitsiTrack newTrack) {
+    public void replaceTrack(JitsiLocalTrack oldTrack, JitsiLocalTrack newTrack) {
         BroadcastNativeEvent.sendEvent("replaceTrack");
     }
 
@@ -101,7 +101,7 @@ public class Conference extends EventEmitter {
         BroadcastNativeEvent.sendEvent("startTranscriber");
     }
 
-    public void stopTranscriber(String id) {
+    public void stopTranscriber() {
         BroadcastNativeEvent.sendEvent("stopTranscriber");
     }
 

@@ -55,4 +55,13 @@ public class SariskaConnectNative extends ReactContextBaseJavaModule {
         localBroadcastManager.sendBroadcast(localIntent);
     }
 
+
+    @ReactMethod
+    public newSariskaMediaTransportMessage(String type, String value, String id) {
+        val localIntent = Intent(type);
+        localIntent.putExtra("value", value);
+        localIntent.putExtra("id", id);
+        localIntent.putExtra("key", "SARISKA_MEDIA_TRANSPORT")
+        localBroadcastManager.sendBroadcast(localIntent);
+    }
 }

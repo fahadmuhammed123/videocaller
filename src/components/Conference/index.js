@@ -38,6 +38,7 @@ const Conference = ({options = conferenceConfig}) => {
         room.on(SariskaMediaTransport.events.conference.CONFERENCE_JOINED, onConferenceJoined);
         room.on(SariskaMediaTransport.events.conference.TRACK_ADDED, onRemoteTrack);
         room.on(SariskaMediaTransport.events.conference.TRACK_REMOVED, onTrackRemoved);
+
         return () => {
             room.off(SariskaMediaTransport.events.conference.CONFERENCE_JOINED, onConferenceJoined);
             room.off(SariskaMediaTransport.events.conference.TRACK_ADDED, onRemoteTrack);
