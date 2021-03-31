@@ -1,7 +1,6 @@
 import React from 'react';
 import SariskaMediaTransport from "sariska-media-transport";
 import {useDispatch} from "react-redux";
-import {addTracks} from "../../store/actions/track";
 import {SariskaNativeConnect} from "../../utils/SariskaNativeConnect";
 import {initSDKConfig} from "../../constants";
 
