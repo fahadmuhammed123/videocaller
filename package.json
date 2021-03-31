@@ -19,7 +19,7 @@
     "react-native-callstats": "^3.70.0",
     "react-native-url-polyfill": "^1.2.0",
     "react-native-webrtc": "^1.87.3",
-    "sariska-media-transport": "git+https://github.com/SariskaIO/sariska-media-transport.git#bk--ts"
+    "sariska-media-transport": "git+https://github.com/SariskaIO/sariska-media-transport.git"
   },
   "devDependencies": {
     "@babel/core": "^7.8.4",
