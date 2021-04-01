@@ -5,19 +5,23 @@ import android.content.Intent;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
 
 public class SariskaMediaTransport extends android.content.BroadcastReceiver {
 
     private final List<Binding> bindings = new ArrayList<>();
 
     public static void init(JSONObject options) {
-
+        synchronized (bindings) {
+            BroadcastNativeEvent.sendEvent("init", options);
+        }
     }
 
-    public static void createLocalTracks(JSONObject jsonObject,  final Callback callback) {
+    public static void createLocalTracks(JSONObject options,  final Callback callback) {
         synchronized (bindings) {
-            this.bindings.add(new Binding("LOCAL_TRACK", callback));
+            this.bindings.add(new Binding("CREATE_LOCAL_TRACK",  callback));
+            BroadcastNativeEvent.sendEvent("createLocalTracks", jsonObject);
         }
     }
 
@@ -26,7 +30,7 @@ public class SariskaMediaTransport extends android.content.BroadcastReceiver {
     }
 
     public static void JitsiConnection() {
-         return Connection(ConnectionOptions options)
+         return Connection(ConnectionOptions options);
     }
 
     @Override
@@ -34,7 +38,7 @@ public class SariskaMediaTransport extends android.content.BroadcastReceiver {
         BroadcastEvent event = new BroadcastEvent(intent);
         Intent intent = getIntent();
         if (binding.getEvent().equals(intent.getStringExtra("key"))) {
-            binding.getCallback().onMessage(new JitsiTrack(intent.getStringExtra("value")));
+            binding.getCallback().onMessage(new JitsiLocalTrack(intent.getStringExtra("value")));
             break;
         }
     }

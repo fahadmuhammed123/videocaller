@@ -3,10 +3,14 @@ package org.sariska.sdk;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
 import org.json.JSONObject;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class JitsiLocalTrack extends EventEmitter {
+
+    private String id;
 
     private String type;
 
@@ -14,31 +18,29 @@ public class JitsiLocalTrack extends EventEmitter {
 
     private String deviceId;
 
-    private String id;
+    private boolean muted;
 
-    private Boolean remote;
-
-    public void JitsiTrack() {
+    public void JitsiLocalTrack() {
 
     }
 
+    public boolean isLocal() {
+        return true;
+    }
+
+    public boolean isMuted() {
+        return this.muted;
+    }
+
     public String getType() {
-        return this.remote;
+        return this.type;
     }
 
     public String getId() {
         return this.id;
     }
 
-    public void mute() {
-        BroadcastNativeEvent.sendEvent("mute", this.id);
-    }
-
-    public void unmute() {
-        BroadcastNativeEvent.sendEvent("unmute", this.id);
-    }
-
-    public void getDeviceId() {
+    public String getDeviceId() {
         return this.deviceId;
     }
 
@@ -46,7 +48,15 @@ public class JitsiLocalTrack extends EventEmitter {
         return this.participantId;
     }
 
-    public void render(JSONObject options) {
+    public void mute() {
+        BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("mute", this.id));
+    }
+
+    public void unmute() {
+        BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("unmute", this.id));
+    }
+
+    public Fragment render(JSONObject options) {
         Fragment reactNativeFragment = new ReactFragment.Builder()
             .setComponentName("Video")
             .setLaunchOptions(options)
@@ -55,6 +65,16 @@ public class JitsiLocalTrack extends EventEmitter {
     }
 
     public void dispose() {
-        BroadcastNativeEvent.sendEvent("dispose", this.id);
+        BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("dispose", this.id));
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        BroadcastEvent event = new BroadcastEvent(intent);
+        Intent intent = getIntent();
+        if (binding.getEvent().equals(intent.getStringExtra("key"))) {
+            binding.getCallback().onMessage(new JitsiLocalTrack(intent.getStringExtra("value")));
+            break;
+        }
     }
 }

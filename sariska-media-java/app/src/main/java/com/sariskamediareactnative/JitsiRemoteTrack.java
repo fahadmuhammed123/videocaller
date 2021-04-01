@@ -3,6 +3,8 @@ package org.sariska.sdk;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.bridge.Arguments;
 import org.json.JSONObject;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
@@ -10,51 +12,57 @@ public class JitsiRemoteTrack extends EventEmitter {
 
     private String type;
 
-    private String participantId;
+    private String ownerEndpointId;
 
     private String deviceId;
 
     private String id;
 
-    private Boolean remote;
+    private boolean muted;
 
-    public void JitsiTrack() {
+    public void JitsiRemoteTrack() {
 
     }
 
     public String getType() {
-        return this.remote;
+        return this.type;
     }
 
     public String getId() {
         return this.id;
     }
 
-    public void mute() {
-        BroadcastNativeEvent.sendEvent("mute", this.id);
-    }
-
-    public void unmute() {
-        BroadcastNativeEvent.sendEvent("unmute", this.id);
-    }
-
-    public void getDeviceId() {
-        return this.deviceId;
+    public void isMuted() {
+        return this.muted;
     }
 
     public String getParticipantId() {
-        return this.participantId;
+        return this.ownerEndpointId;
+    }
+
+    public boolean isLocal() {
+        return false;
     }
 
     public void render(JSONObject options) {
         Fragment reactNativeFragment = new ReactFragment.Builder()
-            .setComponentName("Video")
-            .setLaunchOptions(options)
-            .build();
+                .setComponentName("Video")
+                .setLaunchOptions(options)
+                .build();
         return reactNativeFragment;
     }
 
     public void dispose() {
-        BroadcastNativeEvent.sendEvent("dispose", this.id);
+        BroadcastNativeEvent.sendEvent("REMOTE_TRACK_ACTION", Params.createParams("dispose", this.id));
+    }
+
+    @Override
+    public void onReceive(Context context, Intent intent) {
+        BroadcastEvent event = new BroadcastEvent(intent);
+        Intent intent = getIntent();
+        if (binding.getEvent().equals(intent.getStringExtra("key"))) {
+            binding.getCallback().onMessage(new JitsiLocalTrack(intent.getStringExtra("value")));
+            break;
+        }
     }
 }

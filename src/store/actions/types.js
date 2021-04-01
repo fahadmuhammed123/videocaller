@@ -16,3 +16,6 @@ export const CONFERENCE_ACTION = 'CONFERENCE_ACTION';
 export const ADD_TRACK = "addTrack";
 export const REMOVE_TRACK = "removeTrack";
 export const REPLACE_TRACK  = "replaceTrack";
+
+export const CREATE_LOCAL_TRACKS = "CREATE_LOCAL_TRACKS";
+export const INIT_SDK =
