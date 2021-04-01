@@ -5,44 +5,39 @@ import android.content.Intent;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
-import com.facebook.react.bridge.WritableMap;
-import com.facebook.react.bridge.Arguments;
 
-public class SariskaMediaTransport extends android.content.BroadcastReceiver {
-
-    private final List<Binding> bindings = new ArrayList<>();
+public class SariskaMediaTransport extends EventEmitter {
 
     public static void init(JSONObject options) {
-        synchronized (bindings) {
-            BroadcastNativeEvent.sendEvent("init", options);
-        }
+        BroadcastNativeEvent.sendEvent("SARISKA_MEDIA_TRANSPORT_ACTION", Params.createParams("init"));
     }
 
     public static void createLocalTracks(JSONObject options,  final Callback callback) {
-        synchronized (bindings) {
-            this.bindings.add(new Binding("CREATE_LOCAL_TRACK",  callback));
-            BroadcastNativeEvent.sendEvent("createLocalTracks", jsonObject);
-        }
+        BroadcastNativeEvent.sendEvent("SARISKA_MEDIA_TRANSPORT_ACTION", Params.createParams("createLocalTracks", options));
     }
 
     public static void setLogLevel() {
 
     }
 
-    public static void JitsiConnection() {
-         return Connection(ConnectionOptions options);
+    public static void JitsiConnection(JSONObject options) {
+        return Connection(options);
     }
 
     @Override
     public void onReceive(Context context, Intent intent) {
         BroadcastEvent event = new BroadcastEvent(intent);
         Intent intent = getIntent();
+
+        if (intent.getStringExtra("key") === "createLocalTracks") {
+
+        }
+
         if (binding.getEvent().equals(intent.getStringExtra("key"))) {
             binding.getCallback().onMessage(new JitsiLocalTrack(intent.getStringExtra("value")));
             break;
         }
     }
-
 }
 
 

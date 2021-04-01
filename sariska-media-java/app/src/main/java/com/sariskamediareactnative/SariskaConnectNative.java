@@ -7,10 +7,11 @@ import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import java.util.Map;
 import java.util.HashMap;
+import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class SariskaConnectNative extends ReactContextBaseJavaModule {
 
-    SariskaNativeConnect(ReactApplicationContext context) {
+    SariskaConnectNative(ReactApplicationContext context) {
         super(context);
     }
 
@@ -20,38 +21,32 @@ public class SariskaConnectNative extends ReactContextBaseJavaModule {
     }
 
     @ReactMethod
-    public newConnectionMessage(String type, String value, String id) {
+    public newConnectionMessage(String type) {
         val localIntent = Intent(type);
-        localIntent.putExtra("value", value);
-        localIntent.putExtra("id", id);
-        localIntent.putExtra("key", "CONNECTION");
+        localIntent.putExtra("key", type);
         localBroadcastManager.sendBroadcast(localIntent);
     }
 
     @ReactMethod
-    public newConferenceMessage(String type, String value, String id) {
+    public newConferenceMessage(String type, ReadableMap readableMap) {
         val localIntent = Intent(type);
-        localIntent.putExtra("value", value);
-        localIntent.putExtra("id", id);
-        localIntent.putExtra("key", "CONFERNECE");
+        localIntent.putExtra("key", type);
+        localIntent.putExtra("data", readableMap);
         localBroadcastManager.sendBroadcast(localIntent);
     }
 
     @ReactMethod
-    public newLocalTrackMessage(String type, String value, String id) {
+    public newLocalTrackMessage(String type, ReadableArray readableArray) {
         val localIntent = Intent(type);
-        localIntent.putExtra("value", value);
-        localIntent.putExtra("id", id);
-        localIntent.putExtra("key", "LOCAL_TRACK")
+        localIntent.putExtra("key", type)
+        localIntent.putExtra("data", readableArray);
         localBroadcastManager.sendBroadcast(localIntent);
     }
 
     @ReactMethod
-    public newRemoteTrackMessage(String type, String value, String id) {
+    public newRemoteTrackMessage(String type, ReadableMap readableMap) {
         val localIntent = Intent(type);
-        localIntent.putExtra("value", value);
-        localIntent.putExtra("id", id);
-        localIntent.putExtra("key", "REMOTE_TRACK")
+        localIntent.putExtra("key", type);
         localBroadcastManager.sendBroadcast(localIntent);
     }
 
@@ -59,9 +54,7 @@ public class SariskaConnectNative extends ReactContextBaseJavaModule {
     @ReactMethod
     public newSariskaMediaTransportMessage(String type, String value, String id) {
         val localIntent = Intent(type);
-        localIntent.putExtra("value", value);
-        localIntent.putExtra("id", id);
-        localIntent.putExtra("key", "SARISKA_MEDIA_TRANSPORT")
+        localIntent.putExtra("key", type);
         localBroadcastManager.sendBroadcast(localIntent);
     }
 }

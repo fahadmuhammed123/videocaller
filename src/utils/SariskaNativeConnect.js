@@ -1,26 +1,25 @@
-import {NativeModules, Platform} from 'react-native';
-
+import {NativeModules} from 'react-native';
 const sariskaConnectNative = NativeModules.SariskaConnectNative;
 
 const SariskaConnectNative = {
-    newConnectionMessage: msg => {
-        sariskaConnectNative.newConnectionMessage(msg);
+    newConnectionMessage: (type, msg)  => {
+        sariskaConnectNative.newConnectionMessage(type, msg);
     },
 
-    newConferenceMessage: msg => {
-        sariskaConnectNative.newConferenceMessage(msg);
+    newConferenceMessage: (type, msg)  => {
+        sariskaConnectNative.newConferenceMessage(type, msg);
     },
 
-    newLocalTrackMessage: msg => {
+    newSariskaMediaTransportMessage: (type, msg) => {
         sariskaConnectNative.newLocalTrackMessage(msg);
     },
 
-    newRemoteTrackMessage: msg => {
-        sariskaConnectNative.newRemoteTrackMessage(msg);
+    newLocalTrackMessage: (type, msg) => {
+        sariskaConnectNative.newLocalTrackMessage(type, msg);
     },
 
-    sendCallback: callback => {
-        sariskaConnectNative.sendCallbackToNative(callback);
+    newRemoteTrackMessage: (type, msg) => {
+        sariskaConnectNative.newLocalTrackMessage(type, msg);
     }
 };
 

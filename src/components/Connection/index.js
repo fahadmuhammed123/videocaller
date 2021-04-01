@@ -4,6 +4,7 @@ import {connectionConfig} from "../../constants";
 import NetInfo from "@react-native-community/netinfo";
 import {setConnection} from "../../store/actions/connection";
 import {useDispatch} from "react-redux";
+import SariskaNativeConnect from "../../utils/SariskaNativeConnect";
 
 const Connection = ({token, options=connectionConfig}) => {
     const dispatch = useDispatch();
@@ -15,18 +16,17 @@ const Connection = ({token, options=connectionConfig}) => {
         let connection;
         const onConnectionSuccess = () => {
             dispatch(setConnection(connection));
-            SariskaNativeConnect.newConnectionMessage(SariskaMediaTransport.events.connection.CONNECTION_ESTABLISHED);
+            SariskaNativeConnect.newConferenceMessage(SariskaMediaTransport.events.connection.CONNECTION_ESTABLISHED);
         }
 
         const onConnectionFailed = async (error) => {
-            SariskaNativeConnect.newConnectionMessage(SariskaMediaTransport.events.connection.CONNECTION_FAILED);
+            SariskaNativeConnect.newConferenceMessage(SariskaMediaTransport.events.connection.CONNECTION_FAILED);
         }
 
         const onConnectionDisconnected = (error) => {
             if (!connection) {
                 return;
             }
-            SariskaNativeConnect.newConnectionMessage(SariskaMediaTransport.events.connection.CONNECTION_DISCONNECTED);
             connection.removeEventListener(
                 SariskaMediaTransport.events.connection.CONNECTION_ESTABLISHED,
                 onConnectionSuccess);
@@ -36,6 +36,7 @@ const Connection = ({token, options=connectionConfig}) => {
             connection.removeEventListener(
                 SariskaMediaTransport.events.connection.CONNECTION_DISCONNECTED,
                 onConnectionDisconnected);
+            SariskaNativeConnect.newConnectionMessage(SariskaMediaTransport.events.connection.CONNECTION_DISCONNECTED);
         }
 
         connection = new SariskaMediaTransport.JitsiConnection(token, options);

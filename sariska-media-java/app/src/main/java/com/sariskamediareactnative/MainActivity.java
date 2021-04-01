@@ -13,30 +13,29 @@ public class MainActivity extends ReactActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
         SariskaMediaTransport.init(); // initialize sdk
         this.setupLocalStream();
         JSONObject options = new JSONObject();
-        String token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjI0ZmQ2ZjkyZDZkMDE3NDkyZTNlOThlMzM0ZWJhZmM3NmRkMzUwYmI5M2EwNzI5ZDM4IiwidHlwIjoiSldUIn0.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJpeHNpaWxxaSIsIm5hbWUiOiJxcXdlIn0sImdyb3VwIjoiZzdxa25rbTlhYnRwMW5hZ3Z5eTVmdSJ9LCJzdWIiOiIyIiwicm9vbSI6IjJ2bGk5ZTRnOWgiLCJpYXQiOjE2MTcxNzg3MzYsIm5iZiI6MTYxNzE3ODczNiwiaXNzIjoic2FyaXNrYSIsImF1ZCI6Im1lZGlhX21lc3NhZ2luZ19zYXJpc2thIiwiZXhwIjoxNjE3MjY1MTM2fQ.ATIy3SQSzCxah7JM0OYAJIBivdWYvx9yV0jp3LmypoS3z_Gy4R2KiP7O9Dttdjs5Y0BvYhNXBSfJjYSW5cyT_aCrJ9a3NAURzDEbx7PrMb3y555J0rMbaioS2ochvbvxoeetCSRPturtBenC7oLQLk_er498uAvjcVQzHIjyMigbXTUfQHTCSikePPPTshJSiq8jW7e_pMWCcGF1umcShcOSV5LIaTU4EdWyw8tDWXbXxbzRkHfy8nKncRc1-j5UTO105qmatEAJvMOTUX_J0jtBy37t32BV9bgtWCkEEECeACaeYvf882kr9b_W8cLiOvud0zUwHt2XhiW1scjM4Q";
-
+        String token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjI0ZmQ2ZjkyZDZkMDE3NDkyZTNlOThlMzM0ZWJhZmM3NmRkMzUwYmI5M2EwNzI5ZDM4IiwidHlwIjoiSldUIn0.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJrZHJkam1wZCIsIm5hbWUiOiJkb21pbmFudF9ndWluZWFmb3dsIn0sImdyb3VwIjoiZzdxa25rbTlhYnRwMW5hZ3Z5eTVmdSJ9LCJzdWIiOiIyIiwicm9vbSI6IjlhN2w3aWlkYSIsImlhdCI6MTYxNzI2MzA3NiwibmJmIjoxNjE3MjYzMDc2LCJpc3MiOiJzYXJpc2thIiwiYXVkIjoibWVkaWFfbWVzc2FnaW5nX3Nhcmlza2EiLCJleHAiOjE2MTczNDk0NzZ9.SBbQ2GVPELcQzadJ-A3F-BfcZCtWR9SzwNR82CJebK7BvwhKo4wNQbE7l9eMM9Zh6ZaPRjtXRFMXmBnDBVpB4reJFfdL43PyJP_bC2B-FuLHzk4b8UgbQ_YjEBr_ueLKleYzRzfFR4_f6KIxXh-gYmbYb5-U8gbetLSzmhdIrEZsyp_4keP1DWTDFlEHEtzTJaRmc9BWUFkohWHXj7Nl2QhAbn5V2-LyXIBs5sxmxvFR_yVDd-ctKRfEgtUICDtWxKaa4-XI2TP8mJr4ONZrtvYDWHbmjDp1iDeg5S4MEOxBGrMTfzc9pGIPBLJYtlaQW0zixnrWto3UqOJMHG6sDA";
         Connection connection = new SariskaMediaTransport.JitsiConnection(token, options);
+
         connection.addEventListener("CONNECTION_ESTABLISHED", new Callback() {
             @Override
-            public void onMessage(Envelope envelope) {
+            public void onMessage() {
                this.createConference();
             }
         });
 
         connection.addEventListener("CONNECTION_FAILED", new Callback() {
             @Override
-            public void onMessage(Envelope envelope) {
+            public void onMessage() {
 
             }
         });
 
         connection.addEventListener("CONNECTION_DISCONNECTED", new Callback() {
             @Override
-            public void onMessage(Envelope envelope) {
+            public void onMessage() {
 
             }
         });
@@ -67,27 +66,29 @@ public class MainActivity extends ReactActivity {
 
         conference.addEventListener("CONFERENCE_JOINED", new Callback() {
             @Override
-            public void onMessage(Envelope envelope) {
+            public void onMessage() {
                 for ( JitsiLocalTrack track : localTracks) {
                     conference.addTrack(track);
                 }
             }
         })
 
-        conference.addEventListener("TRACK_ADDED", new Callback(track) {
+        conference.addEventListener("TRACK_ADDED", new Callback() {
             @Override
-            public void onMessage(Envelope envelope) {
-                Fragment remoteTrack = track.render();
-                getSupportFragmentManager()
-                    .beginTransaction()
-                    .add(R.id.remote_video_view_container, remoteTrack)
-                    .commit();
+            public void onMessage(JitsiRemoteTrack track) {
+                Fragment fragment = track.render();
+                if ( track.getType() === "video" ) {
+                    getSupportFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.remote_video_view_container, fragment)
+                        .commit();
+                }
             }
         })
 
-        conference.addEventListener("TRACK_REMOVED", new Callback(track) {
+        conference.addEventListener("TRACK_REMOVED", new Callback() {
             @Override
-            public void onMessage(Envelope envelope) {
+            public void onMessage(JitsiRemoteTrack track) {
                 getSupportFragmentManager()
                     .beginTransaction()
                     .remove(getSupportFragmentManager().findFragmentById(R.id.remote_video_view_container))

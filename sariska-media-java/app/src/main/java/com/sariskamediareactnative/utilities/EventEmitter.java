@@ -1,4 +1,5 @@
 package org.sariska.sdk;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -44,7 +45,7 @@ public class EventEmitter extends android.content.BroadcastReceiver {
      * @param triggerEvent The event name
      * @param message The message's envelope relating to the event or null if not relevant.
      */
-    void trigger(final String triggerEvent, final Message message) {
+    void trigger(final String triggerEvent, final String message) {
         synchronized (bindings) {
             for (final Binding binding : bindings) {
                 if (binding.getEvent().equals(triggerEvent)) {
@@ -59,7 +60,8 @@ public class EventEmitter extends android.content.BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         BroadcastEvent event = new BroadcastEvent(intent);
-        this.trigger(intent)
+        Intent intent = getIntent();
+        this.trigger(intent.getStringExtra("key"), intent.get);
     }
 
 }

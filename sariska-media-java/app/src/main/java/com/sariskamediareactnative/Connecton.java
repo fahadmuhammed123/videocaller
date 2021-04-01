@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import org.json.JSONObject;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class Connection extends EventEmitter {
 

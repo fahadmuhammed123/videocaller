@@ -2,9 +2,12 @@ package org.sariska.sdk;
 
 public interface Callback {
 
-    /**
-     * @param the message payload and properties
-     */
-    void onMessage(final Message envelope);
+    void onMessage();
+
+    void onMessage(final String envelope);
+
+    void onMessage(final JitsiRemoteTrack envelope);
+
+    void onMessage(final JitsiLocalTrack envelope);
 }
 

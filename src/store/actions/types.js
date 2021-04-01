@@ -18,4 +18,4 @@ export const REMOVE_TRACK = "removeTrack";
 export const REPLACE_TRACK  = "replaceTrack";
 
 export const CREATE_LOCAL_TRACKS = "CREATE_LOCAL_TRACKS";
-export const INIT_SDK =
+export const INIT_SDK = "INIT_SDK";

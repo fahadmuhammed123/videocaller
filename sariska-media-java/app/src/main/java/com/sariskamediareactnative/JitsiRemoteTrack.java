@@ -6,7 +6,6 @@ import android.content.IntentFilter;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.Arguments;
 import org.json.JSONObject;
-import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 
 public class JitsiRemoteTrack extends EventEmitter {
 
