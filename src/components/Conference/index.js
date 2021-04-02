@@ -35,6 +35,10 @@ const Conference = ({options = conferenceConfig}) => {
             SariskaNativeConnect.newRemoteTrackMessage(SariskaMediaTransport.events.conference.TRACK_REMOVED, extractTrackInfo(track));
         }
 
+        const onTrackMuteChanged = (track) => {
+            SariskaNativeConnect.newRemoteTrackMessage(SariskaMediaTransport.events.conference.TRACK_MUTE_CHANGED, extractTrackInfo(track));
+        }
+
         const onRemoteTrack = (track) => {
             if (!track || track.isLocal()) {
                 return;
@@ -46,11 +50,12 @@ const Conference = ({options = conferenceConfig}) => {
         room.on(SariskaMediaTransport.events.conference.CONFERENCE_JOINED, onConferenceJoined);
         room.on(SariskaMediaTransport.events.conference.TRACK_ADDED, onRemoteTrack);
         room.on(SariskaMediaTransport.events.conference.TRACK_REMOVED, onTrackRemoved);
-
+        room.on(SariskaMediaTransport.events.conference.TRACK_MUTE_CHANGED, onTrackMuteChanged);
         return () => {
             room.off(SariskaMediaTransport.events.conference.CONFERENCE_JOINED, onConferenceJoined);
             room.off(SariskaMediaTransport.events.conference.TRACK_ADDED, onRemoteTrack);
             room.off(SariskaMediaTransport.events.conference.TRACK_REMOVED, onTrackRemoved);
+            room.off(SariskaMediaTransport.events.conference.TRACK_MUTE_CHANGED, onTrackMuteChanged);
         }
     }, [connection]);
 

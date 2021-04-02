@@ -1,7 +1,6 @@
 import React from 'react';
 import {Provider} from 'react-redux';
 import {store} from './src/store/store';
-import {NativeModules, NativeEventEmitter} from 'react-native';
 import {connectionAction} from "./src/store/actions/connection";
 import {conferenceAction} from "./src/store/actions/conference";
 import {addLocalTrack} from "./src/store/actions/track";
@@ -51,7 +50,7 @@ new NativeEventEmitter(NativeModules.BroadcastNativeEvent).addListener("new_mess
                 store.dispatch(addLocalTrack(videoTrack));
                 store.dispatch(addLocalTrack(audioTrack));
                 store.dispatch(addLocalTrack(desktopTrack));
-                return SariskaNativeConnect.newSariskaMediaTransportMessage("createLocalTracks", [extractTrackInfo(audioTrack), extractTrackInfo(videoTrack), extractTrackInfo(desktopTrack)]);
+                return SariskaNativeConnect.newLocalTrackMessage("createLocalTracks", [extractTrackInfo(audioTrack), extractTrackInfo(videoTrack), extractTrackInfo(desktopTrack)]);
             }
 
             if (param1.audio === true && param1.video === true && action === actions.CREATE_LOCAL_TRACKS) {
@@ -62,24 +61,24 @@ new NativeEventEmitter(NativeModules.BroadcastNativeEvent).addListener("new_mess
                 const audioTrack = await SariskaMediaTransport.createLocalTracks({devices: ["audio"]});
                 store.dispatch(addLocalTrack(videoTrack));
                 store.dispatch(addLocalTrack(audioTrack));
-                return SariskaNativeConnect.newSariskaMediaTransportMessage("createLocalTracks", [extractTrackInfo(audioTrack), extractTrackInfo(videoTrack)]);
+                return SariskaNativeConnect.newLocalTrackMessage("createLocalTracks", [extractTrackInfo(audioTrack), extractTrackInfo(videoTrack)]);
             }
 
             if (param1.audio === true && action === actions.CREATE_LOCAL_TRACKS) {
                 const audioTrack = await SariskaMediaTransport.createLocalTracks({devices: ["audio"]});
                 store.dispatch(addLocalTrack(audioTrack));
-                return SariskaNativeConnect.newSariskaMediaTransportMessage("createLocalTracks", [extractTrackInfo(audioTrack)]);
+                return SariskaNativeConnect.newLocalTrackMessage("createLocalTracks", [extractTrackInfo(audioTrack)]);
             }
 
             if (param1.video === true && action === actions.CREATE_LOCAL_TRACKS) {
                 const videoTrack = await SariskaMediaTransport.createLocalTracks({devices: ["video"]});
                 store.dispatch(addLocalTrack(videoTrack));
-                return SariskaNativeConnect.newSariskaMediaTransportMessage("createLocalTracks", [extractTrackInfo(videoTrack)]);
+                return SariskaNativeConnect.newLocalTrackMessage("createLocalTracks", [extractTrackInfo(videoTrack)]);
             }
 
             if (param1.desktop === true && action === actions.CREATE_LOCAL_TRACKS) {
                 const desktopTrack = await SariskaMediaTransport.createLocalTracks({devices: ["desktop"]});
-                return SariskaNativeConnect.newSariskaMediaTransportMessage("createLocalTracks", [extractTrackInfo(desktopTrack)]);
+                return SariskaNativeConnect.newLocalTrackMessage("createLocalTracks", [extractTrackInfo(desktopTrack)]);
             }
 
             if (action === actions.INIT_SDK) {
