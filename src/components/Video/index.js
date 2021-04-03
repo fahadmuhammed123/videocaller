@@ -16,12 +16,12 @@ const styles = StyleSheet.create({
 })
 
 const Video = (props) => {
-    const {id} = props;
-    if (!id) {
-      return;
+    const {trackId} = props?.initialProps;
+    if (!trackId) {
+      return null;
     }
     const tracks = useSelector(state=>state.track);
-    const track = tracks.find(track=>track.id===id);
+    const track = tracks.find(track=>track.id===trackId);
     return <RTCView streamURL={track.stream?.toURL()} style={styles.video} />;
 };
 

@@ -1,22 +1,32 @@
 package org.sariska.sdk;
 
+import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.ReactContext;
+
 import androidx.annotation.Nullable;
 
 
+class BroadcastNativeEvent extends ReactContextBaseJavaModule {
 
-class BroadcastNativeEvent {
+    private static ReactContext mReactContext;
 
-    static void sendEvent(ReactContext reactContext,
-                           String eventName,
-                           @Nullable WritableMap params) {
-        reactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+    BroadcastNativeEvent(ReactApplicationContext context) {
+        super(context);
+        mReactContext = context;
+    }
+
+    public static void sendEvent(String eventName,
+                                 @Nullable WritableMap params) {
+        mReactContext.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                 .emit(eventName, params);
     }
 
-    public static void sendEvent(String conference_action, WritableMap join) {
+    @Override
+    public String getName() {
+        return "BroadcastNativeEvent";
     }
 }
 

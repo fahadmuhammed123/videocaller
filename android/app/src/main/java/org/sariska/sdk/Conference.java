@@ -3,6 +3,7 @@ package org.sariska.sdk;
 import android.os.Bundle;
 import com.facebook.react.ReactFragment;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableMap;
@@ -13,7 +14,6 @@ import java.util.List;
 
 
 class Conference extends ReactContextBaseJavaModule {
-
     private final List<ConferenceBinding> bindingsConference = new ArrayList<>();
 
     private final List<RemoteTrackBinding> bindingsRemoteTrack = new ArrayList<>();
@@ -28,11 +28,8 @@ class Conference extends ReactContextBaseJavaModule {
     }
 
 
-    public Conference(Bundle options) {
-        new ReactFragment.Builder()
-                .setComponentName("Conference")
-                .setLaunchOptions(options)
-                .build();
+    public Conference() {
+        BroadcastNativeEvent.sendEvent("CREATE_CONFERENCE", Params.createParams());
     }
     
     @ReactMethod

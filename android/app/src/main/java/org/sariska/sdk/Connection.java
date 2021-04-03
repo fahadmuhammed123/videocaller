@@ -1,11 +1,17 @@
 package org.sariska.sdk;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 
 import com.facebook.react.ReactFragment;
+import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.WritableMap;
+import com.facebook.react.modules.core.DeviceEventManagerModule;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -17,6 +23,10 @@ class Connection extends ReactContextBaseJavaModule {
 
     Connection(ReactApplicationContext context) {
         super(context);
+    }
+
+    public Connection(String token) {
+        BroadcastNativeEvent.sendEvent("CREATE_CONNECTION", Params.createConnection(token));
     }
 
     @Override
@@ -36,15 +46,8 @@ class Connection extends ReactContextBaseJavaModule {
         }
     }
 
-    public Connection(Bundle options) {
-        new ReactFragment.Builder()
-                .setComponentName("Connection")
-                .setLaunchOptions(options)
-                .build();
-    }
-
-    public Conference initJitsiConference(Bundle options) {
-        return new Conference(options);
+    public Conference initJitsiConference() {
+        return new Conference();
     }
 
     public void connect() {
@@ -82,5 +85,4 @@ class Connection extends ReactContextBaseJavaModule {
         }
         return this;
     }
-
 }

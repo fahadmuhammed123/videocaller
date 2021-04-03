@@ -13,3 +13,10 @@ export const connectionAction = (type, method) => {
         method
     }
 }
+
+export const sariskaMediaTransportAction = (type, method)=> {
+    return {
+        type,
+        method
+    }
+}

@@ -11,8 +11,6 @@ import java.util.Collections;
 import java.util.List;
 
 class  SariskaPackageList implements ReactPackage {
-    private ReactApplicationContext reactContext;
-
     @Override
     public List<ViewManager> createViewManagers(ReactApplicationContext reactContext) {
         return Collections.emptyList();
@@ -24,6 +22,7 @@ class  SariskaPackageList implements ReactPackage {
         List<NativeModule> modules = new ArrayList<>();
 
         modules.add(new Conference(reactContext));
+        modules.add(new BroadcastNativeEvent(reactContext));
         modules.add(new Connection(reactContext));
         modules.add(new SariskaMediaTransport(reactContext));
         return modules;

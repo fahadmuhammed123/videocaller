@@ -1,10 +1,13 @@
 package org.sariska.sdk;
 
 import android.os.Bundle;
+
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.ReactFragment;
 
 class JitsiRemoteTrack {
+    private ReactContext mReactContext;
 
     private String type;
 

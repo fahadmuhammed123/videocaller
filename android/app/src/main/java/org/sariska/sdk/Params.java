@@ -7,6 +7,11 @@ import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.Arguments;
 
 class Params {
+
+    public static WritableMap createParams() {
+        return Arguments.createMap();
+    }
+
     public static WritableMap createParams(String action) {
         WritableMap params = Arguments.createMap();
         params.putString("action", action);
@@ -82,10 +87,18 @@ class Params {
         return params;
     }
 
-    public static WritableMap createParams(String action, Bundle param1) {
+    public static WritableMap createConnection(String token) {
         WritableMap params = Arguments.createMap();
+        params.putString("token", token);
+        return params;
+    }
 
-        params.putString("action", action);
+    public static WritableMap createConference() {
+        return Arguments.createMap();
+    }
+
+    public static WritableMap createTrackParams(Bundle param1) {
+        WritableMap params = Arguments.createMap();
 
         if (param1.getBoolean("video")) {
             params.putBoolean("video", true);
@@ -96,11 +109,10 @@ class Params {
         }
 
         if (param1.getBoolean("desktop")) {
-            params.putBoolean("resolution", true);
+            params.putBoolean("desktop", true);
         }
 
         params.putInt("resolution", param1.getInt("resolution"));
-
         return params;
     }
 
