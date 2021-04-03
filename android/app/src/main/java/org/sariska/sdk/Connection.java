@@ -19,7 +19,7 @@ import java.util.List;
 
 class Connection extends ReactContextBaseJavaModule {
 
-    private final List<ConnectionBinding> bindings = new ArrayList<>();
+    private final static List<ConnectionBinding> bindings = new ArrayList<>();
 
     Connection(ReactApplicationContext context) {
         super(context);
@@ -36,12 +36,10 @@ class Connection extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void newConnectionMessage(String action) {
-        synchronized (bindings) {
-            for (final ConnectionBinding binding : bindings) {
-                if (binding.getEvent().equals(action)) {
-                    binding.getCallback().onMessage();
-                    break;
-                }
+        for ( ConnectionBinding binding : bindings ) {
+            if (binding.getEvent().equals(action)) {
+                binding.getCallback().onMessage();
+                break;
             }
         }
     }
@@ -67,7 +65,6 @@ class Connection extends ReactContextBaseJavaModule {
     }
 
     public Connection removeEventListener(final String event) {
-        synchronized (bindings) {
             for (final Iterator<ConnectionBinding> bindingIter = bindings.iterator();
                  bindingIter.hasNext(); ) {
                 if (bindingIter.next().getEvent().equals(event)) {
@@ -75,14 +72,12 @@ class Connection extends ReactContextBaseJavaModule {
                     break;
                 }
             }
-        }
         return this;
     }
 
+    @SuppressLint("LongLogTag")
     public Connection addEventListener(final String event, final ConnectionCallback callback) {
-        synchronized (bindings) {
-            this.bindings.add(new ConnectionBinding(event, callback));
-        }
+        bindings.add(new ConnectionBinding(event, callback));
         return this;
     }
 }

@@ -14,9 +14,9 @@ import java.util.List;
 
 
 class Conference extends ReactContextBaseJavaModule {
-    private final List<ConferenceBinding> bindingsConference = new ArrayList<>();
+    private static final List<ConferenceBinding> bindingsConference = new ArrayList<>();
 
-    private final List<RemoteTrackBinding> bindingsRemoteTrack = new ArrayList<>();
+    private static final List<RemoteTrackBinding> bindingsRemoteTrack = new ArrayList<>();
 
     Conference(ReactApplicationContext context) {
         super(context);
@@ -33,13 +33,11 @@ class Conference extends ReactContextBaseJavaModule {
     }
     
     @ReactMethod
-    public void newConferenceMessage(String action, ReadableMap readableMap) {
-        synchronized (bindingsConference) {
-            for (final ConferenceBinding binding : bindingsConference ) {
-                if (binding.getEvent().equals(action)) {
-                    binding.getCallback().onMessage();
-                    break;
-                }
+    public void newConferenceMessage(String action) {
+        for (final ConferenceBinding binding : bindingsConference ) {
+            if (binding.getEvent().equals(action)) {
+                binding.getCallback().onMessage();
+                break;
             }
         }
     }
@@ -47,12 +45,10 @@ class Conference extends ReactContextBaseJavaModule {
 
     @ReactMethod
     public void newRemoteTrackMessage(String action, ReadableMap readableMap) {
-        synchronized (bindingsRemoteTrack) {
-            for (final RemoteTrackBinding binding : bindingsRemoteTrack) {
-                if (binding.getEvent().equals(action)) {
-                    binding.getCallback().onMessage(new JitsiRemoteTrack(readableMap));
-                    break;
-                }
+        for (final RemoteTrackBinding binding : bindingsRemoteTrack) {
+            if (binding.getEvent().equals(action)) {
+                binding.getCallback().onMessage(new JitsiRemoteTrack(readableMap));
+                break;
             }
         }
     }
@@ -180,36 +176,30 @@ class Conference extends ReactContextBaseJavaModule {
     }
 
     public Conference removeEventListener(final String event) {
-        synchronized (bindingsConference) {
-            for (final Iterator<ConferenceBinding> bindingIter = bindingsConference.iterator();
-                 bindingIter.hasNext(); ) {
-                if (bindingIter.next().getEvent().equals(event)) {
-                    bindingIter.remove();
-                    break;
-                }
+        for (final Iterator<ConferenceBinding> bindingIter = bindingsConference.iterator();
+             bindingIter.hasNext(); ) {
+            if (bindingIter.next().getEvent().equals(event)) {
+                bindingIter.remove();
+                break;
             }
-            for (final Iterator<RemoteTrackBinding> bindingIter = bindingsRemoteTrack.iterator();
-                 bindingIter.hasNext(); ) {
-                if (bindingIter.next().getEvent().equals(event)) {
-                    bindingIter.remove();
-                    break;
-                }
+        }
+        for (final Iterator<RemoteTrackBinding> bindingIter = bindingsRemoteTrack.iterator();
+             bindingIter.hasNext(); ) {
+            if (bindingIter.next().getEvent().equals(event)) {
+                bindingIter.remove();
+                break;
             }
         }
         return this;
     }
 
     public Conference addEventListener(final String event, final ConferenceCallback callback) {
-        synchronized (bindingsConference) {
-            this.bindingsConference.add(new ConferenceBinding(event, callback));
-        }
+        bindingsConference.add(new ConferenceBinding(event, callback));
         return this;
     }
 
     public Conference addEventListener(final String event, final RemoteTrackCallback callback) {
-        synchronized (bindingsRemoteTrack) {
-            this.bindingsRemoteTrack.add(new RemoteTrackBinding(event, callback));
-        }
+        bindingsRemoteTrack.add(new RemoteTrackBinding(event, callback));
         return this;
     }
 }

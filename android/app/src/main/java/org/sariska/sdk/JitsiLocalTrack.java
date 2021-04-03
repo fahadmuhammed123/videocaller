@@ -1,6 +1,9 @@
 package org.sariska.sdk;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
+
 import com.facebook.react.ReactFragment;
 import com.facebook.react.bridge.ReadableMap;
 
@@ -16,12 +19,15 @@ class JitsiLocalTrack {
 
     private boolean muted;
 
+    private String streamURL;
+
     public JitsiLocalTrack(ReadableMap readableMap) {
         this.type = readableMap.getString("type");
         this.participantId = readableMap.getString("participantId");
         this.deviceId = readableMap.getString("deviceId");
         this.id = readableMap.getString("id");
         this.muted = readableMap.getBoolean("muted");
+        this.streamURL = readableMap.getString("streamURL");
     }
 
     public boolean isLocal() {
@@ -30,6 +36,10 @@ class JitsiLocalTrack {
 
     public boolean isMuted() {
         return this.muted;
+    }
+
+    public String getStreamURL() {
+        return this.streamURL;
     }
 
     public String getType() {
@@ -60,12 +70,14 @@ class JitsiLocalTrack {
         BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("dispose", this.id));
     }
 
+    @SuppressLint("LongLogTag")
     public ReactFragment render() {
         Bundle options = new Bundle();
         options.putString("id", this.id);
+        options.putBoolean("isRemote", false);
         return new ReactFragment.Builder()
-                .setComponentName("Video")
-                .setLaunchOptions(options)
-                .build();
+            .setComponentName("Video")
+            .setLaunchOptions(options)
+            .build();
     }
 }

@@ -9,20 +9,19 @@ const styles = StyleSheet.create({
         flex: 1,
         display: 'flex',
         flexDirection: 'row',
-        height: 180,
-        width: 120,
-        backgroundColor: 'red'
+        height: 240,
+        width: 360
     }
 })
 
 const Video = (props) => {
-    const {trackId} = props?.initialProps;
-    if (!trackId) {
+    const {id, isRemote} = props?.initialProps;
+    if (!id) {
       return null;
     }
-    const tracks = useSelector(state=>state.track);
-    const track = tracks.find(track=>track.id===trackId);
-    return <RTCView streamURL={track.stream?.toURL()} style={styles.video} />;
+    let tracks= isRemote ? useSelector(state=>state.remoteTrack): useSelector(state=>state.localTrack);
+    const track = tracks.find(track=>track.getId() === id);
+    return <RTCView objectFit='cover' streamURL={track.stream?.toURL()} style={styles.video} />;
 };
 
 export default Video;

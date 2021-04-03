@@ -9,7 +9,7 @@ const SariskaConnectNative = {
     },
 
     newConferenceMessage: (type)  => {
-        Conference.newConferenceMessage(type, param1, param2, param3, param4);
+        Conference.newConferenceMessage(type);
     },
 
     newSariskaMediaTransportMessage: (type, msg) => {
@@ -21,7 +21,9 @@ const SariskaConnectNative = {
     },
 
     newRemoteTrackMessage: (type, msg) => {
-        Conference.newLocalTrackMessage(type, msg);
+                console.log("adding remote track", msg);
+
+        Conference.newRemoteTrackMessage(type, msg);
     }
 };
 

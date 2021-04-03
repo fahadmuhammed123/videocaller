@@ -7,32 +7,31 @@ import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.ReactFragment;
 
 class JitsiRemoteTrack {
-    private ReactContext mReactContext;
 
     private String type;
 
     private String participantId;
 
-    private String deviceId;
-
     private String id;
 
     private boolean muted;
 
+    private String streamURL;
+
     public JitsiRemoteTrack(ReadableMap readableMap) {
         this.type = readableMap.getString("type");
         this.participantId = readableMap.getString("participantId");
-        this.deviceId = readableMap.getString("deviceId");
         this.id = readableMap.getString("id");
         this.muted = readableMap.getBoolean("muted");
+        this.streamURL = readableMap.getString("streamURL");
     }
 
     public String getType() {
         return this.type;
     }
 
-    public String getDeviceId() {
-        return this.deviceId;
+    public String getStreamURL() {
+        return this.streamURL;
     }
 
     public String getId() {
@@ -54,6 +53,7 @@ class JitsiRemoteTrack {
     public ReactFragment render() {
         Bundle options = new Bundle();
         options.putString("id", this.id);
+        options.putBoolean("isRemote", true);
         return new ReactFragment.Builder()
                 .setComponentName("Video")
                 .setLaunchOptions(options)

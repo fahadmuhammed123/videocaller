@@ -14,9 +14,11 @@ export const connectionAction = (type, method) => {
     }
 }
 
-export const sariskaMediaTransportAction = (type, method)=> {
+export const sariskaMediaTransportAction = (type, method, param1, param2)=> {
     return {
         type,
-        method
+        method,
+        param1,
+        param2
     }
 }

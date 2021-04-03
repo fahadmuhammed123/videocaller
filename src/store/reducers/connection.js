@@ -1,4 +1,4 @@
-import {ADD_CONNECTION, CONNECTION_ACTION} from "../actions/types";
+import {ADD_CONNECTION, CONNECTION_ACTION, REMOVE_CONNECTION} from "../actions/types";
 
 const initialState = null;
 
@@ -7,7 +7,13 @@ export const connection = (state = initialState, action) => {
         case ADD_CONNECTION:
             state = action.payload;
             return state;
+        case REMOVE_CONNECTION:
+            state = null;
+            return state;
         case CONNECTION_ACTION:
+            if (state === null) {
+                return;
+            }
             const {param1, param2, method} = action;
             return state[method](param1, param2);
         default:

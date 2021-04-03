@@ -1,6 +1,8 @@
 package org.sariska.sdk;
 
 import android.os.Bundle;
+import android.util.Log;
+
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
@@ -13,7 +15,7 @@ import java.util.List;
 
 
 class SariskaMediaTransport extends ReactContextBaseJavaModule {
-    private static LocalTrackCallback localTrackCallback;
+    private static LocalTrackBinding localTrackBinding;
 
     SariskaMediaTransport(ReactApplicationContext context) {
         super(context);
@@ -35,10 +37,7 @@ class SariskaMediaTransport extends ReactContextBaseJavaModule {
             ReadableMap track = tracks.getMap(i);
             tracksList.add(new JitsiLocalTrack(track));
         }
-        localTrackCallback(tracksList);
-    }
-
-    private void localTrackCallback(List<JitsiLocalTrack> tracksList) {
+        localTrackBinding.getCallback().onMessage(tracksList);
     }
 
     @ReactMethod
@@ -47,7 +46,7 @@ class SariskaMediaTransport extends ReactContextBaseJavaModule {
     }
 
     public static void createLocalTracks(Bundle options, final LocalTrackCallback callback) {
-        localTrackCallback = callback;
+        localTrackBinding = new LocalTrackBinding("CREATE_LOCAL_TRACKS", callback);
         BroadcastNativeEvent.sendEvent("CREATE_LOCAL_TRACKS", Params.createTrackParams(options));
     }
 
