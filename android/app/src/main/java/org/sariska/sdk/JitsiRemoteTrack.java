@@ -1,12 +1,10 @@
 package org.sariska.sdk;
 
-import android.os.Bundle;
-
-import com.facebook.react.bridge.ReactContext;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReadableMap;
-import com.facebook.react.ReactFragment;
+import com.oney.WebRTCModule.WebRTCView;
 
-class JitsiRemoteTrack {
+class JitsiRemoteTrack extends ReactContextBaseJavaModule {
 
     private String type;
 
@@ -50,26 +48,18 @@ class JitsiRemoteTrack {
         return false;
     }
 
-    public ReactFragment render(Bundle options) {
-        options.putString("id", this.id);
-        options.putBoolean("isRemote", true);
-        return new ReactFragment.Builder()
-                .setComponentName("Video")
-                .setLaunchOptions(options)
-                .build();
-    }
-
-    public ReactFragment render() {
-        Bundle options = new Bundle();
-        options.putBoolean("isRemote", false);
-        options.putString("id", this.id); 
-        return new ReactFragment.Builder()
-            .setComponentName("Video")
-            .setLaunchOptions(options)
-            .build();
+    public WebRTCView render() {
+        WebRTCView view  = new WebRTCView(getReactApplicationContext());
+        view.setStreamURL(this.getStreamURL());
+        return view;
     }
 
     public void dispose() {
         BroadcastNativeEvent.sendEvent("REMOTE_TRACK_ACTION", Params.createParams("dispose", this.id));
+    }
+
+    @Override
+    public String getName() {
+        return "JitsiRemoteTrack";
     }
 }

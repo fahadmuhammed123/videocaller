@@ -4,10 +4,14 @@ import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
 
-import com.facebook.react.ReactFragment;
-import com.facebook.react.bridge.ReadableMap;
+import androidx.annotation.NonNull;
 
-class JitsiLocalTrack {
+import com.facebook.react.ReactFragment;
+import com.facebook.react.bridge.ReactContextBaseJavaModule;
+import com.facebook.react.bridge.ReadableMap;
+import com.oney.WebRTCModule.WebRTCView;
+
+class JitsiLocalTrack extends ReactContextBaseJavaModule {
 
     private String id;
 
@@ -59,7 +63,7 @@ class JitsiLocalTrack {
     }
 
     public void switchCamera() {
-       if (this.type == "video") {
+       if (this.type.equals("video")) {
           BroadcastNativeEvent.sendEvent("SWITCH_CAMERA", Params.createParams("switchCamera", this.id));
        }
     }
@@ -76,22 +80,14 @@ class JitsiLocalTrack {
         BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("dispose", this.id));
     }
 
-    public ReactFragment render(Bundle options) {
-        options.putBoolean("isRemote", false);
-        options.putString("id", this.id);
-        return new ReactFragment.Builder()
-            .setComponentName("Video")
-            .setLaunchOptions(options)
-            .build();
+    public WebRTCView render() {
+        WebRTCView view  = new WebRTCView(getReactApplicationContext());
+        view.setStreamURL(this.getStreamURL());
+        return view;
     }
 
-    public ReactFragment render() {
-        Bundle options = new Bundle();
-        options.putBoolean("isRemote", false);
-        options.putString("id", this.id);
-        return new ReactFragment.Builder()
-            .setComponentName("Video")
-            .setLaunchOptions(options)
-            .build();
+    @Override
+    public String getName() {
+        return "JitsiLocalTrack";
     }
 }

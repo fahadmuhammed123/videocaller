@@ -1,24 +1,32 @@
 package org.sariska.sdk;
 
+import android.app.Application;
 import android.os.Bundle;
-import android.util.Log;
 
+import com.facebook.react.ReactApplication;
+import com.facebook.react.ReactInstanceManager;
+import com.facebook.react.ReactInstanceManagerBuilder;
+import com.facebook.react.ReactNativeHost;
 import com.facebook.react.bridge.ReactApplicationContext;
-import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
 import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
+import com.facebook.react.common.LifecycleState;
 
 import java.util.ArrayList;
 import java.util.List;
 
 
 class SariskaMediaTransport extends ReactContextBaseJavaModule {
+
     private static LocalTrackBinding localTrackBinding;
+
+    private static ReactApplicationContext mContext;
 
     SariskaMediaTransport(ReactApplicationContext context) {
         super(context);
+        buildBundle(context.getCurrentActivity().getApplication());
     }
 
     @Override
@@ -45,6 +53,21 @@ class SariskaMediaTransport extends ReactContextBaseJavaModule {
 
     }
 
+    public static void buildBundle(Application application) {
+        try {
+            ReactInstanceManagerBuilder builder = ReactInstanceManager.builder()
+                .setApplication(application)
+                .setJSMainModulePath("index.android")
+                .setBundleAssetName("index.android.bundle")
+                .addPackage(new SariskaPackageList())
+                .setUseDeveloperSupport(false)
+                .setInitialLifecycleState(LifecycleState.RESUMED);
+            builder.build();
+        } catch (Exception ignored) {
+        }
+    }
+
+
     public static void createLocalTracks(Bundle options, final LocalTrackCallback callback) {
         localTrackBinding = new LocalTrackBinding("CREATE_LOCAL_TRACKS", callback);
         BroadcastNativeEvent.sendEvent("CREATE_LOCAL_TRACKS", Params.createTrackParams(options));
@@ -58,5 +81,4 @@ class SariskaMediaTransport extends ReactContextBaseJavaModule {
         return new Connection(token);
     }
 }
-
 

@@ -17,11 +17,4 @@ class ConferenceBinding {
         return callback;
     }
 
-    @Override
-    public String toString() {
-        return "Binding{" +
-            "event='" + event + '\'' +
-            ", callback=" + callback +
-            '}';
-    }
 }

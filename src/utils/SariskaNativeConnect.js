@@ -21,8 +21,6 @@ const SariskaConnectNative = {
     },
 
     newRemoteTrackMessage: (type, msg) => {
-                console.log("adding remote track", msg);
-
         Conference.newRemoteTrackMessage(type, msg);
     }
 };

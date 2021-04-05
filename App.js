@@ -176,8 +176,4 @@ new NativeEventEmitter(NativeModules.BroadcastNativeEvent).addListener("SARISKA_
     return store.dispatch(sariskaMediaTransportAction("SARISKA_MEDIA_TRANSPORT_ACTION", action, param1, param2));
 });
 
-const App = () => {
-    return null;
-};
-
 export default App;

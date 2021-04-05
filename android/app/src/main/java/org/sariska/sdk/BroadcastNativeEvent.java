@@ -1,15 +1,9 @@
 package org.sariska.sdk;
-
-import android.annotation.SuppressLint;
-import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
-import android.util.Log;
 
-import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
-import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.modules.core.DeviceEventManagerModule;
 import com.facebook.react.bridge.WritableMap;
 import com.facebook.react.bridge.ReactContext;
@@ -18,9 +12,6 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 class BroadcastNativeEvent extends ReactContextBaseJavaModule {
@@ -35,13 +26,14 @@ class BroadcastNativeEvent extends ReactContextBaseJavaModule {
             @Override
             public void run() {
                 for (WritableMap item : queue) {
-                    context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
+                    getReactApplicationContext().getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                       .emit(item.getString("eventName"), item);
                 }
                 mReactContext = context;
                 queue.clear();
             }
         }, 2000);
+        ;
     }
 
 

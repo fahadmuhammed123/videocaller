@@ -1,25 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-    <LinearLayout
-        android:id="@+id/topView"
-        style="@style/row"
-        android:background="#20232a" >
-        <FrameLayout
-            android:id="@+id/local_video_view_container"
-            android:layout_width="300dp"
-            android:layout_height="300dp" />
-    </LinearLayout>
+    android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/bottomView"
-        style="@style/row"
-        android:background="#fff">
-        <FrameLayout
-            android:id="@+id/remote_video_view_container"
-            android:layout_width="300dp"
-            android:layout_height="300dp" />
-    </LinearLayout>
+    <RelativeLayout
+        android:id="@+id/local_video_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/remote_video_view_container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </RelativeLayout>
+
 </LinearLayout>
