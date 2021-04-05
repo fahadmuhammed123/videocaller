@@ -32,11 +32,9 @@ class BroadcastNativeEvent extends ReactContextBaseJavaModule {
         super(context);
         final Handler handler = new Handler(Looper.getMainLooper());
         handler.postDelayed(new Runnable() {
-            @SuppressLint("LongLogTag")
             @Override
             public void run() {
                 for (WritableMap item : queue) {
-                    Log.i("loppp thrugh,,,,,,,,,,,,,,,,,,jijijijijijijijiijijijijiijijijijijijijijiiiiiiii", String.valueOf(item));
                     context.getJSModule(DeviceEventManagerModule.RCTDeviceEventEmitter.class)
                       .emit(item.getString("eventName"), item);
                 }

@@ -13,6 +13,7 @@ export function createConference() {
     room.join();
 
     const onConferenceJoined = () => {
+        console.log("onConferenceJoined");
         store.dispatch(addConference(room));
         const data = {
             role: room.getRole(),
@@ -38,12 +39,16 @@ export function createConference() {
         store.dispatch(removeConference());
     }
 
+    const onUserLeft = () => {
+        console.log("user left");
+    }
+
     const onRemoteTrack = (track) => {
         if (!track || track.isLocal()) {
             return;
         }
+        console.log("onRemoteTrack");
         store.dispatch(addRemoteTrack(track));
-        console.log("TRACK_ADDEDTRACK_ADDEDTRACK_ADDETRACK_ADDEDTRACK_ADDEDD");
         SariskaNativeConnect.newRemoteTrackMessage(types.TRACK_ADDED, extractRemoteTrackInfo(track));
     }
 
@@ -52,5 +57,6 @@ export function createConference() {
     room.on(SariskaMediaTransport.events.conference.TRACK_ADDED, onRemoteTrack);
     room.on(SariskaMediaTransport.events.conference.TRACK_REMOVED, onTrackRemoved);
     room.on(SariskaMediaTransport.events.conference.TRACK_MUTE_CHANGED, onTrackMuteChanged);
+    room.on(SariskaMediaTransport.events.conference.USER_LEFT, onUserLeft);
 }
 

@@ -75,7 +75,6 @@ class Connection extends ReactContextBaseJavaModule {
         return this;
     }
 
-    @SuppressLint("LongLogTag")
     public Connection addEventListener(final String event, final ConnectionCallback callback) {
         bindings.add(new ConnectionBinding(event, callback));
         return this;

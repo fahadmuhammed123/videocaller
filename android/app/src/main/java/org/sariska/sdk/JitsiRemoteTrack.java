@@ -50,14 +50,23 @@ class JitsiRemoteTrack {
         return false;
     }
 
-    public ReactFragment render() {
-        Bundle options = new Bundle();
+    public ReactFragment render(Bundle options) {
         options.putString("id", this.id);
         options.putBoolean("isRemote", true);
         return new ReactFragment.Builder()
                 .setComponentName("Video")
                 .setLaunchOptions(options)
                 .build();
+    }
+
+    public ReactFragment render() {
+        Bundle options = new Bundle();
+        options.putBoolean("isRemote", false);
+        options.putString("id", this.id); 
+        return new ReactFragment.Builder()
+            .setComponentName("Video")
+            .setLaunchOptions(options)
+            .build();
     }
 
     public void dispose() {

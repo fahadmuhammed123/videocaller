@@ -15,7 +15,8 @@ export const connection = (state = initialState, action) => {
                 return;
             }
             const {param1, param2, method} = action;
-            return state[method](param1, param2);
+            state[method](param1, param2);
+            return state;
         default:
             return state;
     }

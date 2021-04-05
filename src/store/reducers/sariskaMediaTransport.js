@@ -3,11 +3,13 @@ import SariskaMediaTransport from "sariska-media-transport";
 import {initSDKConfig} from "../../constants";
 const initialState = SariskaMediaTransport;
 
+
 export const sariskaMediaTransport = (state = initialState, action) => {
     switch (action.type) {
         case SARISKA_MEDIA_TRANSPORT_ACTION:
             const {method} = action;
-            return state[method](initSDKConfig);
+            state[method](initSDKConfig);
+            return state;
         default:
             return state;
     }

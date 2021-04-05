@@ -41,3 +41,23 @@ export const updateRemoteTrack = (track) => {
         payload: track
     }
 }
+
+
+export const localTrackAction = (type, method, param1, param2) => {
+    return {
+        type,
+        method,
+        param1,
+        param2
+    }
+}
+
+
+export const remoteTrackAction = (type, method, param1, param2) => {
+    return {
+        type,
+        method,
+        param1,
+        param2
+    }
+}

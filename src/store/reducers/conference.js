@@ -14,8 +14,8 @@ export const conference = (state = initialState, action) => {
                 return;
             }
             const {param1, param2, method} = action;
-            console.log("param1...", param1, method);
-            return state[method](param1, param2);
+            state[method](param1);
+            return state;
         default:
             return state;
     }

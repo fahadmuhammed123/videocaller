@@ -1,9 +1,3 @@
-import SariskaNativeConnect from "../../utils/SariskaNativeConnect";
-import {store} from "../store";
-import {addRemoteTrack, removeRemoteTrack} from "./track";
-import {extractTrackInfo} from "../../utils";
-import {removeConference} from "./conference";
-
 export const ADD_LOCAL_TRACK = 'ADD_LOCAL_TRACK';
 export const UPDATE_LOCAL_TRACK = 'UPDATE_LOCAL_TRACK';
 export const REMOVE_LOCAL_TRACK = 'REMOVE_LOCAL_TRACK';
@@ -19,6 +13,8 @@ export const ADD_CONNECTION = 'ADD_CONNECTION'
 export const CONNECTION_ACTION = 'CONNECTION_ACTION';
 export const CONFERENCE_ACTION = 'CONFERENCE_ACTION';
 export const REMOVE_CONFERENCE = 'REMOVE_CONFERENCE';
+export const SWITCH_CAMERA = "SWITCH_CAMERA";
+
 
 export const ADD_TRACK = "addTrack";
 export const REMOVE_TRACK = "removeTrack";
@@ -33,9 +29,6 @@ export const REMOVE_CONNECTION = "REMOVE_CONNECTION";
 
 export const SARISKA_MEDIA_TRANSPORT_ACTION = "SARISKA_MEDIA_TRANSPORT_ACTION";
 
-
-
-
 //connection
 export const CONNECTION_ESTABLISHED = "CONNECTION_ESTABLISHED";
 export const CONNECTION_DISCONNECTED =  "CONNECTION_DISCONNECTED";
@@ -49,3 +42,4 @@ export const CONFERENCE_LEFT = "CONFERENCE_LEFT";
 export const TRACK_ADDED = "TRACK_ADDED";
 export const TRACK_REMOVED = "TRACK_REMOVED";
 export const TRACK_MUTE_CHANGED = "TRACK_MUTE_CHANGED";
+

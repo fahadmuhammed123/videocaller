@@ -58,6 +58,12 @@ class JitsiLocalTrack {
         return this.participantId;
     }
 
+    public void switchCamera() {
+       if (this.type == "video") {
+          BroadcastNativeEvent.sendEvent("SWITCH_CAMERA", Params.createParams("switchCamera", this.id));
+       }
+    }
+
     public void mute() {
         BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("mute", this.id));
     }
@@ -70,11 +76,19 @@ class JitsiLocalTrack {
         BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("dispose", this.id));
     }
 
-    @SuppressLint("LongLogTag")
+    public ReactFragment render(Bundle options) {
+        options.putBoolean("isRemote", false);
+        options.putString("id", this.id);
+        return new ReactFragment.Builder()
+            .setComponentName("Video")
+            .setLaunchOptions(options)
+            .build();
+    }
+
     public ReactFragment render() {
         Bundle options = new Bundle();
-        options.putString("id", this.id);
         options.putBoolean("isRemote", false);
+        options.putString("id", this.id);
         return new ReactFragment.Builder()
             .setComponentName("Video")
             .setLaunchOptions(options)
