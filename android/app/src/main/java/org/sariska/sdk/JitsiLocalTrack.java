@@ -1,12 +1,7 @@
 package org.sariska.sdk;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
-import android.util.Log;
-
-import androidx.annotation.NonNull;
-
-import com.facebook.react.ReactFragment;
+import com.facebook.react.bridge.ReactContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReadableMap;
 import com.oney.WebRTCModule.WebRTCView;
@@ -24,6 +19,8 @@ class JitsiLocalTrack extends ReactContextBaseJavaModule {
     private boolean muted;
 
     private String streamURL;
+
+    private ReactContext context;
 
     public JitsiLocalTrack(ReadableMap readableMap) {
         this.type = readableMap.getString("type");
@@ -64,24 +61,24 @@ class JitsiLocalTrack extends ReactContextBaseJavaModule {
 
     public void switchCamera() {
        if (this.type.equals("video")) {
-          BroadcastNativeEvent.sendEvent("SWITCH_CAMERA", Params.createParams("switchCamera", this.id));
+           SariskaMediaTransport.sendEvent("SWITCH_CAMERA", Params.createParams("switchCamera", this.id));
        }
     }
 
     public void mute() {
-        BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("mute", this.id));
+        SariskaMediaTransport.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("mute", this.id));
     }
 
     public void unmute() {
-        BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("unmute", this.id));
+        SariskaMediaTransport.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("unmute", this.id));
     }
 
     public void dispose() {
-        BroadcastNativeEvent.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("dispose", this.id));
+        SariskaMediaTransport.sendEvent("LOCAL_TRACK_ACTION", Params.createParams("dispose", this.id));
     }
 
     public WebRTCView render() {
-        WebRTCView view  = new WebRTCView(getReactApplicationContext());
+        WebRTCView view  = new WebRTCView(SariskaMediaTransport.getReactContext());
         view.setStreamURL(this.getStreamURL());
         return view;
     }

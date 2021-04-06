@@ -1,4 +1,4 @@
-import {ADD_REMOTE_TRACK, UPDATE_REMOTE_TRACK, REMOVE_REMOTE_TRACK, REMOTE_TRACK_ACTION} from "../actions/types";
+import {ADD_REMOTE_TRACK, UPDATE_REMOTE_TRACK, REMOVE_REMOTE_TRACK, REMOTE_TRACK_ACTION, REMOVE_ALL_REMOTE_TRACK} from "../actions/types";
 
 const initialState = [];
 
@@ -18,6 +18,9 @@ export const remoteTrack = (state = initialState, action) => {
             const {param1, param2, method} = action;
             state[method](param1, param2);
             return state;
+        case REMOVE_ALL_REMOTE_TRACK:
+             state = [];
+             return state; 
         default:
             return state;
     }

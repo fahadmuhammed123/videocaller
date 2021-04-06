@@ -10,11 +10,8 @@ import * as types from './src/store/actions/types';
 export function createConference() {
     const state = store.getState();
     const room = state.connection.initJitsiConference(conferenceConfig);
-    room.join();
 
     const onConferenceJoined = () => {
-        console.log("onConferenceJoined");
-        store.dispatch(addConference(room));
         const data = {
             role: room.getRole(),
             moderator: room.isModerator(),
@@ -58,5 +55,6 @@ export function createConference() {
     room.on(SariskaMediaTransport.events.conference.TRACK_REMOVED, onTrackRemoved);
     room.on(SariskaMediaTransport.events.conference.TRACK_MUTE_CHANGED, onTrackMuteChanged);
     room.on(SariskaMediaTransport.events.conference.USER_LEFT, onUserLeft);
+    store.dispatch(addConference(room));
 }
 

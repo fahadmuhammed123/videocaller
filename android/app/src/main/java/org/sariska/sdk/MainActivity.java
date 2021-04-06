@@ -1,18 +1,15 @@
 package org.sariska.sdk;
-import android.app.Activity;
+
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
-import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.facebook.react.ReactActivity;
 import com.oney.WebRTCModule.WebRTCView;
-
 import java.util.List;
-public class MainActivity extends ReactActivity {
+
+public class MainActivity extends AppCompatActivity {
 
     private Conference conference;
 
@@ -24,16 +21,18 @@ public class MainActivity extends ReactActivity {
 
     private List<JitsiLocalTrack> localTracks;
 
+    private WebRTCView remoteView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        mRemoteContainer = findViewById(R.id.remote_video_view_container);
+        SariskaMediaTransport.init(getApplication()); // initialize sdk
         mLocalContainer = findViewById(R.id.local_video_view_container);
+        mRemoteContainer = findViewById(R.id.remote_video_view_container);
 
-        SariskaMediaTransport.init(); // initialize sdk
         this.setupLocalStream();
-        String token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjI0ZmQ2ZjkyZDZkMDE3NDkyZTNlOThlMzM0ZWJhZmM3NmRkMzUwYmI5M2EwNzI5ZDM4IiwidHlwIjoiSldUIn0.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJldHhsbG1jYSIsImF2YXRhciI6ImpramsiLCJuYW1lIjoiamtqayIsImVtYWlsIjoiamtqayJ9LCJncm91cCI6Imc3cWtua205YWJ0cDFuYWd2eXk1ZnUifSwic3ViIjoiMiIsInJvb20iOiJ3NjZ5emcyZXgiLCJpYXQiOjE2MTc2MTI2MTgsIm5iZiI6MTYxNzYxMjYxOCwiaXNzIjoic2FyaXNrYSIsImF1ZCI6Im1lZGlhX21lc3NhZ2luZ19zYXJpc2thIiwiZXhwIjoxNjE3Njk5MDE4fQ.Wc2bmQO1cL3b3m45BLOH5mD9ifC-0KRkLhDoTEmiNWbv01iuZ2ORn_6jjT7dr2e0iorodLiCYDft2GBZ_pdSp1oPiihX20Bl5fFHLa3ueJ_BjmDPzOondDIcdguOumuVwcBEr7TwMalNDlXb6UhERZ8dQ6vbpcErCi8L2UoCvfSQLvIDOpb0pONxJlL5rylCwbFEyoOEa44Oeo9wXRZfwtnKcAxe5VuSQUlONLhYMGqNJNitNA_k1E0Mz0ngPEYBxv5iCa3OGR1XXUKXDkENXFCCXDU-_VfZv9vwk6xjEkIs3KMRWzFkUKsEefutZMRC_tIZECLBYaDiVQ41wEVxGw";
+        String token = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjI0ZmQ2ZjkyZDZkMDE3NDkyZTNlOThlMzM0ZWJhZmM3NmRkMzUwYmI5M2EwNzI5ZDM4IiwidHlwIjoiSldUIn0.eyJjb250ZXh0Ijp7InVzZXIiOnsiaWQiOiJsZmhhOTZoZSIsIm5hbWUiOiJyZWx1Y3RhbnRfc3BhcnJvdyJ9LCJncm91cCI6Imc3cWtua205YWJ0cDFuYWd2eXk1ZnUifSwic3ViIjoiMiIsInJvb20iOiJ5a3Qzd2txb2hkIiwiaWF0IjoxNjE3NzIzMTMxLCJuYmYiOjE2MTc3MjMxMzEsImlzcyI6InNhcmlza2EiLCJhdWQiOiJtZWRpYV9tZXNzYWdpbmdfc2FyaXNrYSIsImV4cCI6MTYxNzgwOTUzMX0.bSYpN8-Jk1anYnZ5cK8AkrmLJIEDZS2rQaOLOIluxjU9lGWMhAYIakbaVIK_zU4L1cm2hgDm7VYnZuKoJWZnP1aTvF1-qHHNuuZXV5g6kc-xkA9lkmDiMpGFFBTTRVvDKEley8Qw2ZT3S66MLKfiML8ONT1d1szfO9XV7epTrZikbeXIy3TpxoGo0IhgzYXT5iYmggr3Qg2Nw46vN0knqZfvoMEhOlQcYoKVOyO_j73M6_h_VjXc4aPUsvoEfKc84gWo1Nh8OVL-Tm33rYPG338clkusHwNtMaGFHK03afHhssqLscAGVFXhrMQy5nkZdsKEAubpdKDQ6RnAYN8IMQ";
         connection = SariskaMediaTransport.JitsiConnection(token);
         connection.addEventListener("CONNECTION_ESTABLISHED", this::createConference);
         connection.addEventListener("CONNECTION_FAILED", () -> {
@@ -42,6 +41,7 @@ public class MainActivity extends ReactActivity {
         connection.addEventListener("CONNECTION_DISCONNECTED", () -> {
             Log.i("CONNECTION_DISCONNECTED", "CONNECTION_DISCONNECTED");
         });
+        connection.connect();
     }
 
     public void setupLocalStream() {
@@ -54,15 +54,13 @@ public class MainActivity extends ReactActivity {
 //      options.putString("micDeviceId", "mic_device_id");
 //      options.putString("cameraDeviceId", "camera_device_id");
 
-        Bundle videoOptions = new Bundle();
-        videoOptions.putString("objectFit", "cover");
-
         SariskaMediaTransport.createLocalTracks(options, tracks -> {
             runOnUiThread(() -> {
                 localTracks = tracks;
                 for (JitsiLocalTrack track : tracks) {
                     if (track.getType().equals("video")) {
-                        View view = track.render();
+                        WebRTCView view = track.render();
+                        view.setObjectFit("cover");
                         mLocalContainer.addView(view);
                     }
                 }
@@ -71,6 +69,7 @@ public class MainActivity extends ReactActivity {
     }
 
 
+    @SuppressLint("LongLogTag")
     public void createConference() {
 
         conference = connection.initJitsiConference();
@@ -83,18 +82,41 @@ public class MainActivity extends ReactActivity {
 
         conference.addEventListener("TRACK_ADDED", track -> {
             runOnUiThread(() -> {
-                View view = track.render();
-                mRemoteContainer.addView(view);
+                if (track.getType().equals("video")) {
+                    Log.i("TRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDED","TRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDEDTRACK_ADDED");
+                    WebRTCView view = track.render();
+                    view.setObjectFit("cover");
+                    remoteView = view;
+                    mRemoteContainer.addView(view);
+                }
             });
         });
 
         conference.addEventListener("TRACK_REMOVED", track -> {
+            runOnUiThread(() -> {
+                mRemoteContainer.removeView(remoteView);
+            });
         });
+
+        conference.join();
     }
 
     @Override
-    protected String getMainComponentName() {
-        return "SariskaMediaReactNative";
+    public void onBackPressed() {
+        conference.leave();
+        connection.disconnect();
+        finish();
+        System.gc();
+        System.exit(0);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        conference.leave();
+        connection.disconnect();
+        finish();
+
     }
 
 }

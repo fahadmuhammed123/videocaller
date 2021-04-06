@@ -1,4 +1,4 @@
-import {ADD_CONFERENCE, CONFERENCE_ACTION, REMOVE_CONFERENCE} from "../actions/types";
+import {ADD_CONFERENCE, CONFERENCE_ACTION, REMOVE_CONFERENCE, CONFERENCE_LEAVE} from "../actions/types";
 const initialState = null;
 
 export const conference = (state = initialState, action) => {
@@ -14,7 +14,10 @@ export const conference = (state = initialState, action) => {
                 return;
             }
             const {param1, param2, method} = action;
-            state[method](param1);
+            state[method](param1, param2);
+            if (method === CONFERENCE_LEAVE) {
+                state = null;
+            }
             return state;
         default:
             return state;

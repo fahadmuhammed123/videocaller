@@ -9,7 +9,6 @@ import * as types from  './src/store/actions/types';
 export function createConnection(token) {
     let connection;
     const onConnectionSuccess = () => {
-        store.dispatch(addConnection(connection));
         SariskaNativeConnect.newConnectionMessage(types.CONNECTION_ESTABLISHED);
     }
 
@@ -34,12 +33,10 @@ export function createConnection(token) {
         SariskaNativeConnect.newConnectionMessage(types.CONNECTION_DISCONNECTED);
     }
     connection = new SariskaMediaTransport.JitsiConnection(token, connectionConfig);
-
     connection.addEventListener(SariskaMediaTransport.events.connection.CONNECTION_ESTABLISHED, onConnectionSuccess);
     connection.addEventListener(SariskaMediaTransport.events.connection.CONNECTION_FAILED, onConnectionFailed);
     connection.addEventListener(SariskaMediaTransport.events.connection.CONNECTION_DISCONNECTED, onConnectionDisconnected);
-    connection.connect();
-
+    store.dispatch(addConnection(connection));
     const unsubscribe = NetInfo.addEventListener(state => {
         console.log("Is connected?", state.isConnected);
         SariskaMediaTransport.setNetworkInfo({isOnline: state.isConnected});

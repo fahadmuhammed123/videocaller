@@ -115,5 +115,4 @@ class Params {
         params.putInt("resolution", param1.getInt("resolution"));
         return params;
     }
-
 }

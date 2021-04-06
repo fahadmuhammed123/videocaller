@@ -43,3 +43,9 @@ export const TRACK_ADDED = "TRACK_ADDED";
 export const TRACK_REMOVED = "TRACK_REMOVED";
 export const TRACK_MUTE_CHANGED = "TRACK_MUTE_CHANGED";
 
+export const CONFERENCE_LEAVE = "leave";
+export const CONNECTION_DISCONNECT = "disconnect";
+
+
+export const REMOVE_ALL_REMOTE_TRACK = "REMOVE_ALL_REMOTE_TRACK";
+export const REMOVE_ALL_LOCAL_TRACK = "REMOVE_ALL_LOCAL_TRACK";

@@ -3,7 +3,7 @@ import SariskaMediaTransport from "sariska-media-transport";
 import {initSDKConfig} from "../../constants";
 const initialState = SariskaMediaTransport;
 
-
+SariskaMediaTransport.setLogLevel(SariskaMediaTransport.logLevels.ERROR);
 export const sariskaMediaTransport = (state = initialState, action) => {
     switch (action.type) {
         case SARISKA_MEDIA_TRANSPORT_ACTION:

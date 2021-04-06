@@ -17,7 +17,7 @@ class Connection extends ReactContextBaseJavaModule {
     }
 
     public Connection(String token) {
-        BroadcastNativeEvent.sendEvent("CREATE_CONNECTION", Params.createConnection(token));
+        SariskaMediaTransport.sendEvent("CREATE_CONNECTION", Params.createConnection(token));
     }
 
     @Override
@@ -40,19 +40,19 @@ class Connection extends ReactContextBaseJavaModule {
     }
 
     public void connect() {
-        BroadcastNativeEvent.sendEvent("CONNECTION_ACTION", Params.createParams("connect"));
+        SariskaMediaTransport.sendEvent("CONNECTION_ACTION", Params.createParams("connect"));
     }
 
     public void disconnect() {
-        BroadcastNativeEvent.sendEvent("CONNECTION_ACTION", Params.createParams("disconnect"));
+        SariskaMediaTransport.sendEvent("CONNECTION_ACTION", Params.createParams("disconnect"));
     }
 
     public void addFeature() {
-        BroadcastNativeEvent.sendEvent("CONNECTION_ACTION", Params.createParams("addFeature"));
+        SariskaMediaTransport.sendEvent("CONNECTION_ACTION", Params.createParams("addFeature"));
     }
 
     public void removeFeature() {
-        BroadcastNativeEvent.sendEvent("CONNECTION_ACTION", Params.createParams("removeFeature"));
+        SariskaMediaTransport.sendEvent("CONNECTION_ACTION", Params.createParams("removeFeature"));
     }
 
     public Connection removeEventListener(final String event) {

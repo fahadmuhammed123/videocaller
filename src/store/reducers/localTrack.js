@@ -2,7 +2,8 @@ import {
     ADD_LOCAL_TRACK,
     UPDATE_LOCAL_TRACK,
     REMOVE_LOCAL_TRACK,
-    LOCAL_TRACK_ACTION, SWITCH_CAMERA
+    LOCAL_TRACK_ACTION, SWITCH_CAMERA,
+    REMOVE_ALL_LOCAL_TRACK
 } from "../actions/types";
 
 const initialState = [];
@@ -27,6 +28,9 @@ export const localTrack = (state = initialState, action) => {
             const {param1, param2, method} = action;
             state[method](param1, param2);
             return state;
+        case REMOVE_ALL_LOCAL_TRACK:
+            state = [];
+            return state;     
         default:
             return state;
     }

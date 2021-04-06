@@ -13,7 +13,7 @@ export const removeConnection = () => {
     }
 }
 
-export const connectionAction = (type, method) => {
+export const connectionAction = (type, method, param1, param2) => {
     return {
         type,
         method

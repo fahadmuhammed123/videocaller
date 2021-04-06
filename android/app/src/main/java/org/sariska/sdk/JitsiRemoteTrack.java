@@ -1,5 +1,6 @@
 package org.sariska.sdk;
 
+import android.os.Bundle;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReadableMap;
 import com.oney.WebRTCModule.WebRTCView;
@@ -49,13 +50,13 @@ class JitsiRemoteTrack extends ReactContextBaseJavaModule {
     }
 
     public WebRTCView render() {
-        WebRTCView view  = new WebRTCView(getReactApplicationContext());
+        WebRTCView view  = new WebRTCView(SariskaMediaTransport.getReactContext());
         view.setStreamURL(this.getStreamURL());
         return view;
     }
 
     public void dispose() {
-        BroadcastNativeEvent.sendEvent("REMOTE_TRACK_ACTION", Params.createParams("dispose", this.id));
+        SariskaMediaTransport.sendEvent("REMOTE_TRACK_ACTION", Params.createParams("dispose", this.id));
     }
 
     @Override
