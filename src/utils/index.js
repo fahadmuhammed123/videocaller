@@ -7,17 +7,20 @@ export const getToken = async () => {
             'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-            sessionId: "tes6767766701", // enter your sessionId
-            apiKey: "24fd6f92d6d017492e3e98e334ebafc76dd350bb93a0729d38", // enter your API key
-            // user: {
-            //     id: "user_id",
-            //     name: "user_name"
-            // }
+            apiKey: "27fd6f8080d512442a3694f461adb3986cda5ba39dbe368d75", // enter your API key
+            "user": {
+                "id": "83hdmd6i",
+                "name": "Dipak-2",
+                "moderator": true,
+                "email": "dipak@work.com",
+                "avatar":"null"
+            }
         })
     };
 
     try {
         const response = await fetch(GENERATE_TOKEN_URL, body);
+        console.log("We here");
         if (response.ok) {
             const json = await response.json();
             return json.token;

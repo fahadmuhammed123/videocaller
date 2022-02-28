@@ -19,7 +19,7 @@ const Connection = (props) => {
             if (!token) {
                 return;
             }
-            conn = new SariskaMediaTransport.JitsiConnection(token, connectionConfig);
+            conn = new SariskaMediaTransport.JitsiConnection(token, "test3");
             conn.addEventListener(SariskaMediaTransport.events.connection.CONNECTION_ESTABLISHED, onConnectionSuccess);
             conn.addEventListener(SariskaMediaTransport.events.connection.CONNECTION_FAILED, onConnectionFailed);
             conn.addEventListener(SariskaMediaTransport.events.connection.CONNECTION_DISCONNECTED, onConnectionDisconnected);
