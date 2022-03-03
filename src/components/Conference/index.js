@@ -4,7 +4,6 @@ import {conferenceConfig} from "../../constants";
 import RemoteStream from "../RemoteStream";
 import LocalStream from "../LocalStream";
 
-
 const Conference = (props) => {
     const {connection} = props;
     const [room, setRoom] = useState(null);

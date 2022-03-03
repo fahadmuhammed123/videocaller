@@ -12,8 +12,9 @@
   "dependencies": {
     "@react-native-async-storage/async-storage": "^1.13.4",
     "@react-native-community/netinfo": "^5.9.10",
+    "@sentry/react-native": "^3.2.13",
     "events": "^3.2.0",
-    "react": "16.13.1",
+    "react": "17.0.1",
     "react-native": "0.64.1",
     "react-native-background-timer": "^2.4.1",
     "react-native-callstats": "^3.70.0",
