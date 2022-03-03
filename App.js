@@ -13,7 +13,7 @@ const App= () => {
       Sentry.init({
             dsn: "https://0dd435aee1234ccdb68eefae030b3110@debug.sariska.io/35",
           });
-      throw new Error("My first Sentry error!");
+      //throw new Error("My first Sentry error!");
       return (<Connection />);
       
 };
