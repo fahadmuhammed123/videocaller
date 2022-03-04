@@ -1,12 +1,13 @@
 import React from 'react';
 import {FlatList} from 'react-native';
 import Video from "../Video";
+import Audio from '../Audio';
 
 const RemoteStream = (props) => {
     const {remoteTracks} = props;
 
     const renderItemComponent = ({index, item}) => {
-        return item.type ==="video" ? <Video track={item}/> : null;
+        return item.type ==="video" ? <Video track={item}/> : <Audio track={item}/>;
     }
 
     return (
