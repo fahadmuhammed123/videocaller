@@ -14,7 +14,9 @@ const styles = StyleSheet.create({
     }
 })
 const Video = (props) => {
-    return <RTCView streamURL={props.track.stream?.toURL()} style={styles.video} />;
+    console.log("The stream URL is: "+ props.track.stream.toURL())
+    //return <RTCView streamURL={props.src} mirror={true} style={styles.video} />;
+    return <RTCView streamURL={props.track.stream?.toURL()} mirror={true} style={styles.video} />;
 };
 
 export default Video;
